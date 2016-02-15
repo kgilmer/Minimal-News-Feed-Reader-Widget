@@ -15,6 +15,9 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url "https://github.com/CUTR-at-USF/cutr-mvn-repo/raw/master/releases"
+        }
     }
 }
 

@@ -15,10 +15,12 @@
 -->
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/appwidget_text"
-    android:layout_width="wrap_content"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffff00ff"
-    android:textColor="#ff000000"
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:gravity="center_vertical"
+    android:paddingStart="6dip"
+    android:paddingEnd="6dip"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
 />
-
