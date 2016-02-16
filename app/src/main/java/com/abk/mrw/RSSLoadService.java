@@ -33,7 +33,7 @@ public class RSSLoadService extends IntentService {
             return;
         }
 
-        FeedDataSource.get(EXAMPLE_URL);
+        Feed.get(EXAMPLE_URL);
 
         Intent svcIntent = new Intent(ctxt, WidgetService.class);
 
@@ -60,5 +60,6 @@ public class RSSLoadService extends IntentService {
 
         appWidgetManager.updateAppWidget(appWidgetId, widget);
 
+        stopSelf();
     }
 }

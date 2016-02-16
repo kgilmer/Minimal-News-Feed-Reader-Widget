@@ -1,9 +1,22 @@
 package com.abk.mrw;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Feed {
+
+    private static final Map<String, Feed> sourceMap = new HashMap<>();
+
+    public synchronized static Feed get(String url) {
+        if (!sourceMap.containsKey(url)) {
+            RSSFeedParser parser = new RSSFeedParser(url);
+            sourceMap.put(url, parser.readFeed());
+        }
+
+        return sourceMap.get(url);
+    }
 
     final String title;
     final String link;

@@ -35,30 +35,6 @@ public class WidgetProvider extends AppWidgetProvider {
             Intent si = new Intent(ctxt, RSSLoadService.class);
             si.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             ctxt.startService(si);
-
-            /*
-            Intent svcIntent = new Intent(ctxt, WidgetService.class);
-
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
-
-            RemoteViews widget = new RemoteViews(ctxt.getPackageName(),
-                    R.layout.widget);
-
-            widget.setRemoteAdapter(appWidgetIds[i], R.id.words,
-                    svcIntent);
-
-
-            Intent clickIntent = new Intent(ctxt, LoremActivity.class);
-            PendingIntent clickPI = PendingIntent
-                    .getActivity(ctxt, 0,
-                            clickIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
-
-            widget.setPendingIntentTemplate(R.id.words, clickPI);
-
-            appWidgetManager.updateAppWidget(appWidgetIds[i], widget);
-            */
         }
 
         super.onUpdate(ctxt, appWidgetManager, appWidgetIds);

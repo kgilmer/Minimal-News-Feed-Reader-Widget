@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -28,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private final FeedDataSource feed;
+    private final Feed feed;
     private Context ctxt = null;
     private int appWidgetId;
 
@@ -36,21 +37,22 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
         this.ctxt = ctxt;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.feed = FeedDataSource.get(intent.getStringExtra("RSS_URL"));
+        this.feed = Feed.get(intent.getStringExtra("RSS_URL"));
     }
 
     @Override
     public void onCreate() {
+        Log.d(this.getClass().getSimpleName(), "onCreate()");
     }
 
     @Override
     public void onDestroy() {
-        // no-op
+        Log.d(this.getClass().getSimpleName(), "onDestroy()");
     }
 
     @Override
     public int getCount() {
-        return feed.getFeed().getMessages().size();
+        return feed.getMessages().size();
     }
 
     @Override
@@ -58,42 +60,42 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
         RemoteViews row = new RemoteViews(ctxt.getPackageName(),
                 R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, feed.getFeed().getMessages().get(position).getTitle());
+        row.setTextViewText(android.R.id.title, feed.getMessages().get(position).getTitle());
 
         Intent i = new Intent();
         Bundle extras = new Bundle();
 
-        i.setData(Uri.parse(feed.getFeed().getMessages().get(position).getLink()));
+        i.setData(Uri.parse(feed.getMessages().get(position).getLink()));
 
         //extras.putString(WidgetProvider.EXTRA_WORD, feed.getFeed().getMessages().get(position).getLink());
         //i.putExtras(extras);
-        row.setOnClickFillInIntent(android.R.id.text1, i);
+        row.setOnClickFillInIntent(android.R.id.title, i);
 
         return (row);
     }
 
     @Override
     public RemoteViews getLoadingView() {
-        return (null);
+        return null;
     }
 
     @Override
     public int getViewTypeCount() {
-        return (1);
+        return 1;
     }
 
     @Override
     public long getItemId(int position) {
-        return (position);
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
-        return (true);
+        return true;
     }
 
     @Override
     public void onDataSetChanged() {
-        // no-op
+        Log.d(this.getClass().getSimpleName(), "onDataSetChanged()");
     }
 }

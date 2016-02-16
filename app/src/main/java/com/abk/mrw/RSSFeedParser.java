@@ -66,7 +66,6 @@ public class RSSFeedParser {
                                 feed = new Feed(title, link, description, language,
                                         copyright, pubdate);
                             }
-                            event = eventReader.nextEvent();
                             break;
                         case TITLE:
                             title = getCharacterData(event, eventReader);
