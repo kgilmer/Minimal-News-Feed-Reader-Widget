@@ -16,11 +16,14 @@
 package com.abk.mrw;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViewsService;
 
 public class WidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
+
+    Log.d(this.getClass().getCanonicalName(), "onGetViewFactory()");
 
     return(new LoremViewsFactory(this.getApplicationContext(),
                                  intent));

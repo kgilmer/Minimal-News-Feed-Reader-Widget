@@ -15,21 +15,25 @@
 
 package com.abk.mrw;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.util.Calendar;
+
 public class WidgetProvider extends AppWidgetProvider {
-    public static String EXTRA_WORD =
-            "com.commonsware.android.appwidget.lorem.WORD";
 
     @Override
     public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
+
+        Log.d(this.getClass().getCanonicalName(), "onUpdate()");
 
         for (int i = 0; i < appWidgetIds.length; i++) {
             Intent si = new Intent(ctxt, RSSLoadService.class);
@@ -39,4 +43,5 @@ public class WidgetProvider extends AppWidgetProvider {
 
         super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
     }
+
 }

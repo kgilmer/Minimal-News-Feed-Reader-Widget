@@ -1,21 +1,40 @@
 package com.abk.mrw;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import com.google.common.base.MoreObjects;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
+import java.sql.SQLOutput;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class Feed {
 
-    private static final Map<String, Feed> sourceMap = new HashMap<>();
+    private static final Feed EMPTY_FEED = new Feed();
+    private static final LoadingCache<String, Feed> feedLoadingCache = CacheBuilder.newBuilder()
+            .maximumSize(512)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build(
+                    new CacheLoader<String, Feed>() {
+                        public Feed load(@NonNull final String url) {
+                            Log.i(Feed.class.getCanonicalName(), "Loading: " + url);
+                            RSSFeedParser parser = new RSSFeedParser(url);
+
+                            return MoreObjects.firstNonNull(parser.readFeed(), EMPTY_FEED);
+                        }
+                    });
 
     public synchronized static Feed get(String url) {
-        if (!sourceMap.containsKey(url)) {
-            RSSFeedParser parser = new RSSFeedParser(url);
-            sourceMap.put(url, parser.readFeed());
+        try {
+            return feedLoadingCache.get(url);
+        } catch (ExecutionException e) {
+            Log.e(Feed.class.getCanonicalName(), "Failed to load feed.", e);
+            return EMPTY_FEED;
         }
-
-        return sourceMap.get(url);
     }
 
     final String title;
@@ -26,6 +45,11 @@ public class Feed {
     final String pubDate;
 
     final List<FeedMessage> entries = new ArrayList<FeedMessage>();
+
+    private Feed() {
+        this("empty", "", null, null, null, null);
+    }
+
 
     public Feed(String title, String link, String description, String language,
                 String copyright, String pubDate) {
@@ -38,7 +62,7 @@ public class Feed {
     }
 
     public List<FeedMessage> getMessages() {
-        return entries;
+        return entries != null ? entries : Collections.<FeedMessage>emptyList();
     }
 
     public String getTitle() {

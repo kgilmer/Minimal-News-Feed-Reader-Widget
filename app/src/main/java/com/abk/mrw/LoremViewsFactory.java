@@ -15,6 +15,8 @@
 
 package com.abk.mrw;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,34 +26,42 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Calendar;
 
 public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private final Feed feed;
-    private Context ctxt = null;
-    private int appWidgetId;
+    private final String url;
+    private Feed feed;
+    private final Context ctxt;
+    private final int appWidgetId;
 
     public LoremViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
+        this.url = intent.getStringExtra("RSS_URL");
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.feed = Feed.get(intent.getStringExtra("RSS_URL"));
     }
 
     @Override
     public void onCreate() {
-        Log.d(this.getClass().getSimpleName(), "onCreate()");
+        scheduleAlarm(ctxt);
+        Log.d(this.getClass().getCanonicalName(), "onCreate()");
     }
 
     @Override
     public void onDestroy() {
-        Log.d(this.getClass().getSimpleName(), "onDestroy()");
+        clearAlarm(ctxt);
+        Log.d(this.getClass().getCanonicalName(), "onDestroy()");
     }
 
     @Override
     public int getCount() {
+        if (feed == null || feed.getMessages() == null) {
+            return 0;
+        }
+
+        Log.i(LoremViewsFactory.class.getCanonicalName(), "getCount() " + feed.getMessages().size());
+
         return feed.getMessages().size();
     }
 
@@ -60,18 +70,14 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
         RemoteViews row = new RemoteViews(ctxt.getPackageName(),
                 R.layout.row);
 
+        final Intent i = new Intent();
         row.setTextViewText(android.R.id.title, feed.getMessages().get(position).getTitle());
-
-        Intent i = new Intent();
-        Bundle extras = new Bundle();
-
         i.setData(Uri.parse(feed.getMessages().get(position).getLink()));
-
-        //extras.putString(WidgetProvider.EXTRA_WORD, feed.getFeed().getMessages().get(position).getLink());
-        //i.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.title, i);
 
-        return (row);
+        Log.i(LoremViewsFactory.class.getCanonicalName(), "getViewAt()");
+
+        return row;
     }
 
     @Override
@@ -96,6 +102,51 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public void onDataSetChanged() {
-        Log.d(this.getClass().getSimpleName(), "onDataSetChanged()");
+        Log.d(this.getClass().getCanonicalName(), "onDataSetChanged()");
+
+        this.feed = Feed.get(url);
+    }
+
+    protected static void scheduleAlarm(final Context context) {
+        Log.d(WidgetProvider.class.getCanonicalName(), "Scheduling alarm.");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+
+        final PendingIntent alarmIntent =
+                getAlarmIntent(context);
+
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        alarmMgr.cancel(alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
+                AlarmManager.INTERVAL_HALF_HOUR,
+                AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
+
+        /*
+        alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_HOUR, alarmIntent);
+                */
+        Log.i(LoremViewsFactory.class.getCanonicalName(), "Setting alarm for refresh: " + calendar.toString());
+    }
+
+    private void clearAlarm(Context context) {
+        final PendingIntent alarmIntent =
+                getAlarmIntent(context);
+
+        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmMgr.cancel(alarmIntent);
+    }
+
+
+    private static PendingIntent getAlarmIntent(Context context) {
+        return PendingIntent.getService(context, 0, createRefreshIntent(context), 0);
+    }
+
+    public static Intent createRefreshIntent(Context context) {
+        return new Intent(context, RSSLoadService.class);
     }
 }
