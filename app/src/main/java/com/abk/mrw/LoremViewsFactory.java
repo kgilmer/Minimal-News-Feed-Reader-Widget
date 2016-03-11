@@ -25,20 +25,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import com.google.common.collect.Iterables;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private final String url;
-    private Feed feed;
+    private final String [] urls;
+    private final List<FeedMessage> feed = new ArrayList<>();
     private final Context ctxt;
     private final int appWidgetId;
 
     public LoremViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
-        this.url = intent.getStringExtra("RSS_URL");
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+        this.urls = intent.getStringArrayExtra(RSSLoadService.EXTRA_KEY_URL_ARRAY);
+        this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
@@ -56,13 +60,9 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public int getCount() {
-        if (feed == null || feed.getMessages() == null) {
-            return 0;
-        }
+        Log.i(LoremViewsFactory.class.getCanonicalName(), "getCount() " + feed.size());
 
-        Log.i(LoremViewsFactory.class.getCanonicalName(), "getCount() " + feed.getMessages().size());
-
-        return feed.getMessages().size();
+        return feed.size();
     }
 
     @Override
@@ -71,8 +71,8 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
                 R.layout.row);
 
         final Intent i = new Intent();
-        row.setTextViewText(android.R.id.title, feed.getMessages().get(position).getTitle());
-        i.setData(Uri.parse(feed.getMessages().get(position).getLink()));
+        row.setTextViewText(android.R.id.title, feed.get(position).getTitle());
+        i.setData(Uri.parse(feed.get(position).getLink()));
         row.setOnClickFillInIntent(android.R.id.title, i);
 
         Log.i(LoremViewsFactory.class.getCanonicalName(), "getViewAt()");
@@ -104,7 +104,20 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     public void onDataSetChanged() {
         Log.d(this.getClass().getCanonicalName(), "onDataSetChanged()");
 
-        this.feed = Feed.get(url);
+        feed.clear();
+        List<List<FeedMessage>> llfm = new ArrayList<>(urls.length);
+        for (final String url : urls) {
+            try {
+                Feed f = Feed.get(url);
+
+                if (f.getMessages() != null) {
+                    llfm.add(f.getMessages());
+                }
+            } catch (RuntimeException e) {
+                Log.e(LoremViewsFactory.class.getCanonicalName(), "Failed to load feed " + url, e);
+            }
+        }
+        Iterables.addAll(feed, Interleaver.fromIterables(llfm));
     }
 
     protected static void scheduleAlarm(final Context context) {

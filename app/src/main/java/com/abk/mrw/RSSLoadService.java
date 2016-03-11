@@ -10,17 +10,20 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.security.PublicKey;
+
 /**
  * Created by kgilmer on 2/14/16.
  */
 public class RSSLoadService extends IntentService {
-    private static final String EXAMPLE_URL = "https://news.ycombinator.com/rss";
+    private static final String [] EXAMPLE_URLS = {
+            "https://news.ycombinator.com/rss",
+            "https://news.google.com/news?pz=1&cf=all&ned=us&hl=en&output=rss",
+            "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int",
+            "http://www.npr.org/rss/rss.php?id=1001"
+    };
+    public static final String EXTRA_KEY_URL_ARRAY = "URLS";
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
     public RSSLoadService() {
         super(RSSLoadService.class.getName());
     }
@@ -30,7 +33,8 @@ public class RSSLoadService extends IntentService {
         final Context ctxt = this;
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-        final String url = intent.getStringExtra("url") != null ? intent.getStringExtra("url") : EXAMPLE_URL;
+        final String [] urls =
+                intent.getStringExtra("url") != null ? new String[] {intent.getStringExtra("url")} : EXAMPLE_URLS;
 
         Log.i(this.getClass().getCanonicalName(), "Refreshing widgets");
 
@@ -38,32 +42,23 @@ public class RSSLoadService extends IntentService {
             int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(this.getPackageName(), WidgetProvider.class.getName()));
 
             for (final int id : ids) {
-                updateWidget(ctxt, id, appWidgetManager, url);
-                /*
-                (new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateWidget(ctxt, id, appWidgetManager, url);
-                    }
-                })).start();
-                */
+                updateWidget(ctxt, id, appWidgetManager, urls);
             }
 
             return;
         } else {
-            updateWidget(ctxt, appWidgetId, appWidgetManager, url);
+            updateWidget(ctxt, appWidgetId, appWidgetManager, urls);
         }
 
         stopSelf();
     }
 
-    private synchronized void updateWidget(Context ctxt, int appWidgetId, AppWidgetManager appWidgetManager, String url) {
-        //Feed.get(url);
-
+    private synchronized void updateWidget(Context ctxt, int appWidgetId, AppWidgetManager appWidgetManager, String [] urls) {
         Intent svcIntent = new Intent(ctxt, WidgetService.class);
 
         svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        svcIntent.putExtra("RSS_URL", url);
+        //svcIntent.putExtra("RSS_URL", url);
+        svcIntent.putExtra(EXTRA_KEY_URL_ARRAY, urls);
         svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
         RemoteViews widget = new RemoteViews(ctxt.getPackageName(),
