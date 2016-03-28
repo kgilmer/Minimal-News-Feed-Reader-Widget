@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import com.abk.mrw.util.Interleaver;
 import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;

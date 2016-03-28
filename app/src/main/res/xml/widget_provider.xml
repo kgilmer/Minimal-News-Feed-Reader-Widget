@@ -1,9 +1,10 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-  android:minWidth="146dip"
-  android:minHeight="146dip"
-  android:updatePeriodMillis="3600000"
-  android:initialLayout="@layout/widget"
-  android:autoAdvanceViewId="@+id/words"
-  android:previewImage="@drawable/preview"
-  android:resizeMode="vertical|horizontal"
-/>
+                    android:minWidth="146dip"
+                    android:minHeight="146dip"
+                    android:updatePeriodMillis="3600000"
+                    android:initialLayout="@layout/widget"
+                    android:autoAdvanceViewId="@+id/words"
+                    android:previewImage="@drawable/preview"
+                    android:resizeMode="vertical|horizontal"
+                    android:configure="com.abk.mrw.settings.RootSettingsActivity"
+        />

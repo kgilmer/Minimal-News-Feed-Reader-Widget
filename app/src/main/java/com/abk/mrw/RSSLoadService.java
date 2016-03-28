@@ -9,19 +9,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
-
-import java.security.PublicKey;
+import com.abk.mrw.db.DataSource;
 
 /**
  * Created by kgilmer on 2/14/16.
  */
 public class RSSLoadService extends IntentService {
-    private static final String [] EXAMPLE_URLS = {
-            "https://news.ycombinator.com/rss",
-            "https://news.google.com/news?pz=1&cf=all&ned=us&hl=en&output=rss",
-            "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml?edition=int",
-            "http://www.npr.org/rss/rss.php?id=1001"
-    };
     public static final String EXTRA_KEY_URL_ARRAY = "URLS";
 
     public RSSLoadService() {
@@ -33,8 +26,8 @@ public class RSSLoadService extends IntentService {
         final Context ctxt = this;
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-        final String [] urls =
-                intent.getStringExtra("url") != null ? new String[] {intent.getStringExtra("url")} : EXAMPLE_URLS;
+
+        final String [] urls = DataSource.getSubscribedFeeds(ctxt, appWidgetId);
 
         Log.i(this.getClass().getCanonicalName(), "Refreshing widgets");
 

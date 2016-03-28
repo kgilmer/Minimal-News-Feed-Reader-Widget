@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.abk.mrw">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.abk.mrw">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
             android:icon="@drawable/icon"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:allowBackup="true">
         <receiver
+                android:name=".WidgetProvider"
                 android:icon="@drawable/cw"
-                android:label="@string/app_name"
-                android:name="com.abk.mrw.WidgetProvider">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                     android:name="android.appwidget.provider"
                     android:resource="@xml/widget_provider"/>
@@ -23,12 +24,37 @@
         <!-- Receive Wi-Fi connection state changes -->
         <receiver android:name=".NetworkConnectivityReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+
         <service
-                android:name="com.abk.mrw.WidgetService"
+                android:name=".WidgetService"
                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
-        <service android:name=".RSSLoadService" android:exported="true" />
+        <service
+                android:name=".RSSLoadService"
+                android:exported="false"/>
+
+        <activity
+                android:name=".settings.RootSettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:theme="@style/MaterialSettingsTheme">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".settings.CuratedSourceSettingsActivity"
+                android:label="@string/title_curated_source_activity_settings"
+                android:theme="@style/MaterialSettingsTheme">
+        </activity>
+
+        <activity
+                android:name=".settings.CustomSourceSettingsActivity"
+                android:label="@string/title_curated_source_activity_settings"
+                android:theme="@style/MaterialSettingsTheme">
+        </activity>
     </application>
+
 </manifest>

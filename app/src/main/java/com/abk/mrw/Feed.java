@@ -2,6 +2,7 @@ package com.abk.mrw;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.abk.xmlobjectiterable.core.XMLObjectIterable;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -23,6 +24,7 @@ public class Feed {
                         public Feed load(@NonNull final String url) {
                             Log.i(Feed.class.getCanonicalName(), "Loading: " + url);
                             RSSFeedParser parser = new RSSFeedParser(url);
+
 
                             return MoreObjects.firstNonNull(parser.readFeed(), EMPTY_FEED);
                         }

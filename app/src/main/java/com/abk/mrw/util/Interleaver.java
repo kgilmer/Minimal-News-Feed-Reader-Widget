@@ -1,4 +1,4 @@
-package com.abk.mrw;
+package com.abk.mrw.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
