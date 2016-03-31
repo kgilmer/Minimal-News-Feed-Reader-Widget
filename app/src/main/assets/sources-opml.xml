@@ -7,6 +7,11 @@
     </head>
     <body>
         <outline text="Frontend" title="Frontend">
+            <outline htmlUrl="http://news.ycombinator.com" text="Hacker News" title="Hacker News" type="rss" version="RSS" xmlUrl="https://news.ycombinator.com/rss" />
+            <outline htmlUrl="http://www.joelonsoftware.com" text="Joel on Software" title="Joel on Software" type="rss" version="RSS" xmlUrl="http://www.joelonsoftware.com/rss.xml" />
+            <outline htmlUrl="http://procbits.com" text="procbits" title="procbits" type="rss" version="RSS" xmlUrl="http://procbits.com/rss.xml" />
+        </outline>
+        <outline text="Frontend" title="Frontend">
             <outline htmlUrl="http://www.smashingmagazine.com" text="Smashing Magazine" title="Smashing Magazine" type="rss" version="RSS" xmlUrl="http://rss1.smashingmagazine.com/feed/" />
             <outline htmlUrl="http://alistapart.com" text="A List Apart" title="A List Apart" type="rss" version="RSS" xmlUrl="http://feeds.feedburner.com/alistapart/main" />
             <outline htmlUrl="http://blog.teamtreehouse.com" text="Treehouse Blog" title="Treehouse Blog" type="rss" version="RSS" xmlUrl="http://feeds.feedburner.com/teamtreehouse" />

@@ -1,5 +1,6 @@
 package com.abk.mrw.model;
 
+import android.util.Log;
 import com.abk.xmlobjectiterable.core.XMLObjectIterable;
 import com.google.common.base.Optional;
 
@@ -72,13 +73,14 @@ public class RSSItem {
 
         @Override
         public Optional<RSSItem> transform() {
-            if (description != null
-                    && comments != null
-                    && pubDate != null
-                    && link != null
+            if (link != null
                     && title != null) {
 
-                return Optional.of(new RSSItem(title, link, pubDate, comments, description));
+                final RSSItem item = new RSSItem(title, link, pubDate, comments, description);
+
+                Log.d(RSSItem.class.getCanonicalName(), "Created " + item.toString());
+
+                return Optional.of(item);
             }
 
             return Optional.absent();

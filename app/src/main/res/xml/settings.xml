@@ -1,0 +1,18 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+            android:fragment="com.abk.mrw.settings.SettingsFragment"
+            android:summary="Specify the feeds to load."
+            android:title="Feed Sources">
+        <extra
+                android:name="page"
+                android:value="feeds"/>
+    </header>
+    <header
+            android:fragment="com.abk.mrw.settings.SettingsFragment"
+            android:summary="Configure visual elements."
+            android:title="Style">
+        <extra
+                android:name="page"
+                android:value="style"/>
+    </header>
+</preference-headers>

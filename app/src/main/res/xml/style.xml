@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidUnknownAttribute -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="color1"
+            android:title="color title"
+            android:summary="color summary"
+            alphaSlider="true"
+            />
+</PreferenceScreen>

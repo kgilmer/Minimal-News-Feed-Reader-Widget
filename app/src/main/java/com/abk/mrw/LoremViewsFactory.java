@@ -21,22 +21,21 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import com.abk.mrw.util.Interleaver;
+import com.abk.mrw.db.DataSource;
+import com.abk.mrw.model.RSSItem;
 import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final String [] urls;
-    private final List<FeedMessage> feed = new ArrayList<>();
+    private final List<RSSItem> feed = new ArrayList<>();
     private final Context ctxt;
     private final int appWidgetId;
 
@@ -73,10 +72,10 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
         final Intent i = new Intent();
         row.setTextViewText(android.R.id.title, feed.get(position).getTitle());
-        i.setData(Uri.parse(feed.get(position).getLink()));
+        i.setData(Uri.parse(feed.get(position).getUrl()));
         row.setOnClickFillInIntent(android.R.id.title, i);
 
-        Log.i(LoremViewsFactory.class.getCanonicalName(), "getViewAt()");
+        //Log.i(LoremViewsFactory.class.getCanonicalName(), "getViewAt()");
 
         return row;
     }
@@ -105,20 +104,11 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
     public void onDataSetChanged() {
         Log.d(this.getClass().getCanonicalName(), "onDataSetChanged()");
 
+        List<RSSItem> tmpItems = new ArrayList<>();
+        Iterables.addAll(tmpItems, DataSource.getRSSItems(urls));
+        Log.d(this.getClass().getCanonicalName(), "new items: " + tmpItems.size());
         feed.clear();
-        List<List<FeedMessage>> llfm = new ArrayList<>(urls.length);
-        for (final String url : urls) {
-            try {
-                Feed f = Feed.get(url);
-
-                if (f.getMessages() != null) {
-                    llfm.add(f.getMessages());
-                }
-            } catch (RuntimeException e) {
-                Log.e(LoremViewsFactory.class.getCanonicalName(), "Failed to load feed " + url, e);
-            }
-        }
-        Iterables.addAll(feed, Interleaver.fromIterables(llfm));
+        feed.addAll(tmpItems);
     }
 
     protected static void scheduleAlarm(final Context context) {

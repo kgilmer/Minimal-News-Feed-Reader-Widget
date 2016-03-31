@@ -12,10 +12,12 @@ import com.abk.xmlobjectiterable.core.XMLObjectIterable;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -28,15 +30,16 @@ public class DataSource {
 
     private static final String PREFS_NAME = DataSource.class.getCanonicalName();
 
-    private static final LoadingCache<URL, List<RSSItem>> feedLoadingCache = CacheBuilder.newBuilder()
+    private static final LoadingCache<String, List<RSSItem>> feedLoadingCache = CacheBuilder.newBuilder()
             .maximumSize(512)
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .build(
-                    new CacheLoader<URL, List<RSSItem>>() {
-                        public List<RSSItem> load(@NonNull final URL url) {
-                            Log.i(DataSource.class.getCanonicalName(), "Loading: " + url);
+                    new CacheLoader<String, List<RSSItem>>() {
+                        public List<RSSItem> load(@NonNull final String urlStr) {
+                            Log.i(DataSource.class.getCanonicalName(), "Loading: " + urlStr);
 
                             try {
+                                final URL url = new URL(urlStr);
                                 final InputStream is = url.openStream();
                                 if (is != null) {
                                     XMLObjectIterable<RSSItem> xoi = new XMLObjectIterable.Builder<RSSItem>()
@@ -45,10 +48,13 @@ public class DataSource {
                                             .withTransform(RSSItem.RSS_TRANSFORMER)
                                             .create();
 
-                                    return Lists.newArrayList(xoi);
+                                    List<RSSItem> itemList = new ArrayList<RSSItem>();
+                                    Iterables.addAll(itemList, xoi);
+
+                                    return itemList;
                                 }
                             } catch (java.io.IOException e) {
-                                Log.e(DataSource.class.getCanonicalName(), "Failed to load from " + url);
+                                Log.e(DataSource.class.getCanonicalName(), "Failed to load from " + urlStr);
                             }
 
                             return Collections.emptyList();
@@ -61,14 +67,15 @@ public class DataSource {
      * @param urls list of URLs
      * @return all feeds interleaved.
      */
-    public static Iterable<RSSItem> getRSSItems(Iterable<URL> urls) {
+    public static Iterable<RSSItem> getRSSItems(String[] urls) {
 
         List<List<RSSItem>> rssItems = new ArrayList<>();
 
-        for (final URL url : urls) {
+        for (final String urlStr : urls) {
             try {
-                rssItems.add(Lists.newArrayList(feedLoadingCache.get(url)));
-            } catch (ExecutionException e) {
+                List<RSSItem> items = feedLoadingCache.get(urlStr);
+                rssItems.add(items);
+            } catch (ExecutionException | RuntimeException e) {
                 Log.e(DataSource.class.getCanonicalName(), "Failed to load data.", e);
             }
         }
@@ -80,7 +87,7 @@ public class DataSource {
 
         InputStream input = context.getAssets().open("sources-opml.xml");
 
-        XMLObjectIterable<RSSBookmarkItem> xoi = new XMLObjectIterable.Builder<RSSBookmarkItem>()
+        final XMLObjectIterable<RSSBookmarkItem> xoi = new XMLObjectIterable.Builder<RSSBookmarkItem>()
                 .from(input)
                 .withTransform(RSSBookmarkItem.TRANSFORMER)
                 .pathOf(RSSBookmarkItem.PATH)

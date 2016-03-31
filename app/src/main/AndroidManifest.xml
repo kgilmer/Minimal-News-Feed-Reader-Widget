@@ -55,6 +55,14 @@
                 android:label="@string/title_curated_source_activity_settings"
                 android:theme="@style/MaterialSettingsTheme">
         </activity>
+
+        <activity
+                android:name=".settings.SettingsActivity"
+                android:label="@string/title_curated_source_activity_settings"
+                android:theme="@style/MaterialSettingsTheme">
+        </activity>
+
+
     </application>
 
 </manifest>

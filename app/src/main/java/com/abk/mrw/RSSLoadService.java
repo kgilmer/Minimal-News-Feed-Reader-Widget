@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import com.abk.mrw.db.DataSource;
 
+import java.util.Arrays;
+
 /**
  * Created by kgilmer on 2/14/16.
  */
@@ -27,19 +29,23 @@ public class RSSLoadService extends IntentService {
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 
-        final String [] urls = DataSource.getSubscribedFeeds(ctxt, appWidgetId);
-
-        Log.i(this.getClass().getCanonicalName(), "Refreshing widgets");
+        Log.i(this.getClass().getCanonicalName(), "Refreshing widgets " + appWidgetId);
 
         if (appWidgetId == -1) {
             int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(this.getPackageName(), WidgetProvider.class.getName()));
 
             for (final int id : ids) {
+                final String [] urls = DataSource.getSubscribedFeeds(ctxt, id);
+                Log.d(RSSLoadService.class.getCanonicalName(), appWidgetId + " Subscribed: " + Arrays.asList(urls));
+
                 updateWidget(ctxt, id, appWidgetManager, urls);
             }
 
             return;
         } else {
+            final String [] urls = DataSource.getSubscribedFeeds(ctxt, appWidgetId);
+            Log.d(RSSLoadService.class.getCanonicalName(), appWidgetId + " Subscribed: " + Arrays.asList(urls));
+
             updateWidget(ctxt, appWidgetId, appWidgetManager, urls);
         }
 
