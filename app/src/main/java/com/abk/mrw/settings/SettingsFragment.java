@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.abk.mrw.R;
+import com.abk.mrw.util.PrefsUtil;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -17,9 +18,12 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         //getActivity().setTheme(R.style...);
 
+        getPreferenceManager().setSharedPreferencesName(PrefsUtil.getSharedPrefsRoot());
+
         if (getArguments() != null) {
             String page = getArguments().getString("page");
-            if (page != null)
+            if (page != null) {
+                PrefsUtil.setCurrentFragment(page);
                 switch (page) {
                     case "feeds":
                         addPreferencesFromResource(R.xml.feeds);
@@ -28,6 +32,17 @@ public class SettingsFragment extends PreferenceFragment {
                         addPreferencesFromResource(R.xml.style);
                         break;
                 }
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        String page = getArguments().getString("page");
+        if (page != null) {
+            PrefsUtil.setCurrentFragment(null);
         }
     }
 

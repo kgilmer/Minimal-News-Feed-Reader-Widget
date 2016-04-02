@@ -25,7 +25,7 @@ public class WidgetService extends RemoteViewsService {
 
     Log.d(this.getClass().getCanonicalName(), "onGetViewFactory()");
 
-    return(new LoremViewsFactory(this.getApplicationContext(),
+    return(new WidgetViewsFactory(this.getApplicationContext(),
                                  intent));
   }
 }

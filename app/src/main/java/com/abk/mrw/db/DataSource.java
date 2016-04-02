@@ -67,7 +67,7 @@ public class DataSource {
      * @param urls list of URLs
      * @return all feeds interleaved.
      */
-    public static Iterable<RSSItem> getRSSItems(String[] urls) {
+    public static Iterable<RSSItem> getRSSItems(Set<String> urls) {
 
         List<List<RSSItem>> rssItems = new ArrayList<>();
 

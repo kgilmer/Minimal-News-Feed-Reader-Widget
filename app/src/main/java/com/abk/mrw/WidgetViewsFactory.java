@@ -20,30 +20,35 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.abk.mrw.db.DataSource;
 import com.abk.mrw.model.RSSItem;
+import com.abk.mrw.settings.SettingsActivity;
+import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
-public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private final String [] urls;
+    private final Set<String> urls;
     private final List<RSSItem> feed = new ArrayList<>();
     private final Context ctxt;
     private final int appWidgetId;
+    private final SharedPreferences prefs;
 
-    public LoremViewsFactory(Context ctxt, Intent intent) {
+    public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
-        this.urls = intent.getStringArrayExtra(RSSLoadService.EXTRA_KEY_URL_ARRAY);
+        //this.urls = intent.getStringArrayExtra(RSSLoadService.EXTRA_KEY_URL_ARRAY);
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.prefs = ctxt.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
+        this.urls = prefs.getStringSet("pref_popularSources", Collections.singleton("http://news.ycombinator.com/rss"));
     }
 
     @Override
@@ -60,7 +65,7 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
 
     @Override
     public int getCount() {
-        Log.i(LoremViewsFactory.class.getCanonicalName(), "getCount() " + feed.size());
+        Log.i(WidgetViewsFactory.class.getCanonicalName(), "getCount() " + feed.size());
 
         return feed.size();
     }
@@ -75,7 +80,11 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
         i.setData(Uri.parse(feed.get(position).getUrl()));
         row.setOnClickFillInIntent(android.R.id.title, i);
 
-        //Log.i(LoremViewsFactory.class.getCanonicalName(), "getViewAt()");
+        final int textColor = prefs.getInt("textcolor", -1);
+        if (textColor != -1) {
+            row.setTextColor(android.R.id.title, textColor);
+        }
+        //Log.i(WidgetViewsFactory.class.getCanonicalName(), "getViewAt()");
 
         return row;
     }
@@ -134,7 +143,7 @@ public class LoremViewsFactory implements RemoteViewsService.RemoteViewsFactory 
         alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_HOUR, alarmIntent);
                 */
-        Log.i(LoremViewsFactory.class.getCanonicalName(), "Setting alarm for refresh: " + calendar.toString());
+        Log.i(WidgetViewsFactory.class.getCanonicalName(), "Setting alarm for refresh: " + calendar.toString());
     }
 
     private void clearAlarm(Context context) {

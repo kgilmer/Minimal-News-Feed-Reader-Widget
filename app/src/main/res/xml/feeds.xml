@@ -4,7 +4,7 @@
             android:key="pref_manualSource"
             android:title="Enter feed URL"/>
 
-    <ListPreference
+    <MultiSelectListPreference
             android:key="pref_popularSources"
             android:title="@string/pref_popularSources"
             android:dialogTitle="@string/pref_popularSources"

@@ -17,7 +17,7 @@ public class NetworkConnectivityReceiver extends BroadcastReceiver {
         if (isWifiConnected(context)) {
             Log.i(NetworkConnectivityReceiver.class.getCanonicalName(), "Refreshing feed due to network event.");
 
-            context.startService(LoremViewsFactory.createRefreshIntent(context));
+            context.startService(WidgetViewsFactory.createRefreshIntent(context));
         }
     }
 
