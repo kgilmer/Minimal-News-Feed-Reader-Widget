@@ -20,6 +20,9 @@ public class SettingsFragment extends PreferenceFragment {
 
         getPreferenceManager().setSharedPreferencesName(PrefsUtil.getSharedPrefsRoot());
 
+        addPreferencesFromResource(R.xml.settings);
+
+        /*
         if (getArguments() != null) {
             String page = getArguments().getString("page");
             if (page != null) {
@@ -33,17 +36,10 @@ public class SettingsFragment extends PreferenceFragment {
                         break;
                 }
             }
+        } else {
+            addPreferencesFromResource(R.xml.feeds);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        String page = getArguments().getString("page");
-        if (page != null) {
-            PrefsUtil.setCurrentFragment(null);
-        }
+        */
     }
 
     @Override
@@ -59,7 +55,7 @@ public class SettingsFragment extends PreferenceFragment {
             bar.setDisplayHomeAsUpEnabled(true);
             bar.setDisplayShowTitleEnabled(true);
             bar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-            bar.setTitle(getPreferenceScreen().getTitle());
+            bar.setTitle("Settings");
         }
         return layout;
     }

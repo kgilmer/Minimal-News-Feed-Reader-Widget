@@ -28,6 +28,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
         setResult(RESULT_CANCELED);
 
+        setTitle("Settings");
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+
         Optional<Integer> widgetIdOpt = getSourceWidgetId();
         if (widgetIdOpt.isPresent()) {
             PrefsUtil.setWidgetId(widgetIdOpt.get());
@@ -40,20 +47,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     public void onBackPressed() {
-        if (PrefsUtil.isSettingsRoot()) {
-            //Root settings page.
-            Intent startService = new Intent(this,
-                    RSSLoadService.class);
-            startService.putExtra(EXTRA_APPWIDGET_ID, PrefsUtil.getWidgetId());
-            setResult(RESULT_OK, startService);
-            startService(startService);
-        }
+        //Root settings page.
+        Intent startService = new Intent(this,
+                RSSLoadService.class);
+        startService.putExtra(EXTRA_APPWIDGET_ID, PrefsUtil.getWidgetId());
+        setResult(RESULT_OK, startService);
+        startService(startService);
+
         super.onBackPressed();
     }
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.settings, target);
+        //loadHeadersFromResource(R.xml.settings, target);
 
         setContentView(R.layout.settings_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

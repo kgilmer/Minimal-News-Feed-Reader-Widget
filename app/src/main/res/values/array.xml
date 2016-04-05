@@ -4,50 +4,15 @@
         <item>German for Black</item>
         <item>Hacker News</item>
         <item>Instagram Engineering</item>
-        <item>German for Black</item>
-        <item>Hacker News</item>
-        <item>Instagram Engineering</item>
-        <item>German for Black</item>
-        <item>Hacker News</item>
-        <item>Instagram Engineering</item>
-        <item>German for Black</item>
-        <item>Hacker News</item>
-        <item>Instagram Engineering</item>
-        <item>German for Black</item>
-        <item>Hacker News</item>
-        <item>Instagram Engineering</item>
-        <item>German for Black</item>
-        <item>Hacker News</item>
-        <item>Instagram Engineering</item>
     </string-array>
     <string-array name="pref_popularFeed_values">
         <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://germanforblack.com/rss</item>
-        <item>http://news.ycombinator.com/rss</item>
+        <item>https://news.ycombinator.com/rss</item>
         <item>http://instagram-engineering.tumblr.com/rss</item>
     </string-array>
     <string-array name="pref_textSize_entries">
         <item>Large</item>
         <item>Medium</item>
         <item>Small</item>
-    </string-array>
-    <string-array name="pref_textSize_values">
-        <item>3</item>
-        <item>2</item>
-        <item>1</item>
     </string-array>
 </resources>

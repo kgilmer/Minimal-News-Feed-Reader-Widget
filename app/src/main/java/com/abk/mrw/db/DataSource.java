@@ -41,6 +41,7 @@ public class DataSource {
                             try {
                                 final URL url = new URL(urlStr);
                                 final InputStream is = url.openStream();
+
                                 if (is != null) {
                                     XMLObjectIterable<RSSItem> xoi = new XMLObjectIterable.Builder<RSSItem>()
                                             .from(is)
@@ -55,9 +56,13 @@ public class DataSource {
                                 }
                             } catch (java.io.IOException e) {
                                 Log.e(DataSource.class.getCanonicalName(), "Failed to load from " + urlStr);
+
+                                final RSSItem errorItem = new RSSItem("Failed to load " + urlStr, null, null, null, null);
+                                return Collections.singletonList(errorItem);
                             }
 
-                            return Collections.emptyList();
+                            final RSSItem errorItem = new RSSItem("No data for " + urlStr, null, null, null, null);
+                            return Collections.singletonList(errorItem);
                         }
                     });
 

@@ -31,6 +31,7 @@ import com.abk.mrw.model.RSSItem;
 import com.abk.mrw.settings.SettingsActivity;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
 import java.util.*;
 
@@ -39,16 +40,32 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private final Set<String> urls;
     private final List<RSSItem> feed = new ArrayList<>();
     private final Context ctxt;
-    private final int appWidgetId;
     private final SharedPreferences prefs;
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
         //this.urls = intent.getStringArrayExtra(RSSLoadService.EXTRA_KEY_URL_ARRAY);
-        this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         this.prefs = ctxt.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
-        this.urls = prefs.getStringSet("pref_popularSources", Collections.singleton("http://news.ycombinator.com/rss"));
+        this.urls = loadUrls(prefs);
+    }
+
+    /**
+     * Load all URLs for widget from prefs.
+     *
+     * @param prefs
+     * @return set of URLs as strings
+     */
+    private Set<String> loadUrls(SharedPreferences prefs) {
+        final Set<String> u = Sets.newHashSet(prefs.getStringSet("pref_popularSources", Collections.<String>emptySet()));
+
+        final String customUrl = prefs.getString("EditTextPreference", null);
+        if (customUrl != null) {
+            u.add(customUrl);
+        }
+
+        return u;
     }
 
     @Override
@@ -72,8 +89,23 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getViewAt(int position) {
+        final String textSize = prefs.getString("pref_textSize", "Medium");
+        final int rowLayout;
+        switch (textSize) {
+            case "Large":
+                rowLayout = R.layout.row_large;
+                break;
+            case "Medium":
+                rowLayout = R.layout.row;
+                break;
+            case "Small":
+                rowLayout = R.layout.row_small;
+                break;
+            default:
+                throw new IllegalArgumentException("Undefined size: " + textSize);
+        }
         RemoteViews row = new RemoteViews(ctxt.getPackageName(),
-                R.layout.row);
+                rowLayout);
 
         final Intent i = new Intent();
         row.setTextViewText(android.R.id.title, feed.get(position).getTitle());
@@ -84,6 +116,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         if (textColor != -1) {
             row.setTextColor(android.R.id.title, textColor);
         }
+
+        final int bgColor = prefs.getInt("bgcolor", -1);
+        if (bgColor != -1) {
+            row.setInt(android.R.id.title, "setBackgroundColor", bgColor);
+        }
+
         //Log.i(WidgetViewsFactory.class.getCanonicalName(), "getViewAt()");
 
         return row;

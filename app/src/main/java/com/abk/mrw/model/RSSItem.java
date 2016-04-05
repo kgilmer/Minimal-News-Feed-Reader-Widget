@@ -88,6 +88,7 @@ public class RSSItem {
 
         @Override
         public void visit(String name, String value, Map<String, String> attribs) {
+            Log.d(RSSItem.class.getCanonicalName(), "Read " + name + ": " + value);
             switch (name) {
                 case "title":
                     this.title = value;

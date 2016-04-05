@@ -3,6 +3,6 @@
     <style name="WidgetStyle" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:typeface">sans</item>
+        <item name="android:typeface">serif</item>
     </style>
 </resources>

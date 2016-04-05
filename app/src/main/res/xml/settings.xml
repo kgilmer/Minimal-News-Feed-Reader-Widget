@@ -1,18 +1,47 @@
-<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
-    <header
-            android:fragment="com.abk.mrw.settings.SettingsFragment"
-            android:summary="Specify the feeds to load."
-            android:title="Feed Sources">
-        <extra
-                android:name="page"
-                android:value="feeds"/>
-    </header>
-    <header
-            android:fragment="com.abk.mrw.settings.SettingsFragment"
-            android:summary="Configure visual elements."
-            android:title="Style">
-        <extra
-                android:name="page"
-                android:value="style"/>
-    </header>
-</preference-headers>
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="Feed Sources" >
+
+    <EditTextPreference
+            android:key="pref_manualSource"
+            android:title="Enter Feed URL"
+            android:summary="Enter your own feed URL."/>
+
+    <MultiSelectListPreference
+            android:key="pref_popularSources"
+            android:title="@string/pref_popularSources"
+            android:summary="Select from a list of popular feeds."
+            android:dialogTitle="@string/pref_popularSources"
+            android:entries="@array/pref_popularFeed_entries"
+            android:entryValues="@array/pref_popularFeed_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Widget Style" >
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="bgcolor"
+            android:title="Background Color"
+            android:summary="Set the background color and transparency."
+            android:defaultValue="@integer/defaultBackgroundColor"
+            alphaSlider="true"
+            />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="textcolor"
+            android:title="Text Color"
+            android:summary="Set the text color."
+            android:defaultValue="@integer/defaultTextColor"
+            alphaSlider="false"
+            />
+
+    <ListPreference
+            android:key="pref_textSize"
+            android:title="Text Size"
+            android:dialogTitle="Text Size"
+            android:entries="@array/pref_textSize_entries"
+            android:entryValues="@array/pref_textSize_entries"
+            android:defaultValue="Medium"/>
+    </PreferenceCategory>
+</PreferenceScreen>

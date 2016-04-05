@@ -8,7 +8,6 @@ import com.google.common.base.Optional;
 public final class PrefsUtil {
 
     private static Optional<Integer> widgetIdOpt = Optional.absent();
-    private static String currentFragment = null;
 
     private PrefsUtil() {
     }
@@ -27,14 +26,6 @@ public final class PrefsUtil {
 
     public static void setWidgetId(int widgetId) {
         widgetIdOpt = Optional.of(widgetId);
-    }
-
-    public static boolean isSettingsRoot() {
-        return currentFragment == null;
-    }
-
-    public static void setCurrentFragment(String fragment) {
-        currentFragment = fragment;
     }
 
     public static boolean hasWidgetId() {
