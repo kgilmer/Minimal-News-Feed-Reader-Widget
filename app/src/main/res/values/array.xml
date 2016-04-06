@@ -4,11 +4,13 @@
         <item>German for Black</item>
         <item>Hacker News</item>
         <item>Instagram Engineering</item>
+        <item>swannodette</item>
     </string-array>
     <string-array name="pref_popularFeed_values">
         <item>http://germanforblack.com/rss</item>
         <item>https://news.ycombinator.com/rss</item>
         <item>http://instagram-engineering.tumblr.com/rss</item>
+        <item>http://swannodette.github.io/atom.xml</item>
     </string-array>
     <string-array name="pref_textSize_entries">
         <item>Large</item>

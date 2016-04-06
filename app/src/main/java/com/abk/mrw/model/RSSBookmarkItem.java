@@ -1,6 +1,6 @@
 package com.abk.mrw.model;
 
-import com.abk.xmlobjectiterable.core.XMLObjectIterable;
+import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.base.Optional;
 
 import java.util.Map;
@@ -79,6 +79,11 @@ public class RSSBookmarkItem {
         @Override
         public void reset() {
             item = null;
+        }
+
+        @Override
+        public String getPath() {
+            return PATH;
         }
     };
 }

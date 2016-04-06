@@ -7,17 +7,17 @@ import android.util.Log;
 import android.widget.Toast;
 import com.abk.mrw.model.RSSBookmarkItem;
 import com.abk.mrw.model.RSSItem;
+import com.abk.mrw.model.TransformFactory;
 import com.abk.mrw.util.Interleaver;
-import com.abk.xmlobjectiterable.core.XMLObjectIterable;
+import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -43,16 +43,22 @@ public class DataSource {
                                 final InputStream is = url.openStream();
 
                                 if (is != null) {
-                                    XMLObjectIterable<RSSItem> xoi = new XMLObjectIterable.Builder<RSSItem>()
-                                            .from(is)
-                                            .pathOf(RSSItem.RSS_PATH)
-                                            .withTransform(RSSItem.RSS_TRANSFORMER)
-                                            .create();
+                                    final BufferedInputStream bis = new BufferedInputStream(is, TransformFactory.BUFFER_SIZE);
 
-                                    List<RSSItem> itemList = new ArrayList<RSSItem>();
-                                    Iterables.addAll(itemList, xoi);
+                                    XMLObjectIterable.Transformer<RSSItem> transformer =
+                                            TransformFactory.getTransformer(bis);
 
-                                    return itemList;
+                                    if (transformer != null) {
+                                        XMLObjectIterable<RSSItem> xoi = new XMLObjectIterable.Builder<RSSItem>()
+                                                .from(bis)
+                                                .withTransform(transformer)
+                                                .create();
+
+                                        List<RSSItem> itemList = new ArrayList<RSSItem>();
+                                        Iterables.addAll(itemList, xoi);
+
+                                        return itemList;
+                                    }
                                 }
                             } catch (java.io.IOException e) {
                                 Log.e(DataSource.class.getCanonicalName(), "Failed to load from " + urlStr);
@@ -95,7 +101,6 @@ public class DataSource {
         final XMLObjectIterable<RSSBookmarkItem> xoi = new XMLObjectIterable.Builder<RSSBookmarkItem>()
                 .from(input)
                 .withTransform(RSSBookmarkItem.TRANSFORMER)
-                .pathOf(RSSBookmarkItem.PATH)
                 .create();
 
         return xoi;

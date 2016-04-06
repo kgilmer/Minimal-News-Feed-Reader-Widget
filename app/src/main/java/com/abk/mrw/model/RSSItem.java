@@ -1,7 +1,7 @@
 package com.abk.mrw.model;
 
 import android.util.Log;
-import com.abk.xmlobjectiterable.core.XMLObjectIterable;
+import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.base.Optional;
 
 import java.util.Map;
@@ -37,6 +37,10 @@ public class RSSItem {
         this.pubDate = pubDate;
         this.comments = comments;
         this.description = description;
+    }
+
+    public RSSItem(String title, String link, String updated) {
+        this(title, link, updated, null, null);
     }
 
     public String getTitle() {
@@ -88,7 +92,6 @@ public class RSSItem {
 
         @Override
         public void visit(String name, String value, Map<String, String> attribs) {
-            Log.d(RSSItem.class.getCanonicalName(), "Read " + name + ": " + value);
             switch (name) {
                 case "title":
                     this.title = value;
@@ -115,6 +118,11 @@ public class RSSItem {
             pubDate = null;
             comments = null;
             description = null;
+        }
+
+        @Override
+        public String getPath() {
+            return RSS_PATH;
         }
     };
 }

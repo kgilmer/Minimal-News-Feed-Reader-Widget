@@ -34,7 +34,7 @@ dependencies {
         transitive = true
     }
 
-    compile 'com.github.kgilmer:XMLObjectIterable:0.5@aar'
+    compile 'com.github.kgilmer:XMLObjectIterable:0.6@aar'
 
     compile 'com.github.kgilmer:android-ColorPickerPreference:1.0@aar'
 

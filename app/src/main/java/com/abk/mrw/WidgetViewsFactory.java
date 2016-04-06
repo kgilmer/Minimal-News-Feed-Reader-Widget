@@ -109,8 +109,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
         final Intent i = new Intent();
         row.setTextViewText(android.R.id.title, feed.get(position).getTitle());
-        i.setData(Uri.parse(feed.get(position).getUrl()));
-        row.setOnClickFillInIntent(android.R.id.title, i);
+        final String urlStr = feed.get(position).getUrl();
+        if (urlStr != null) {
+            //URL will be null if a 'dummy' list view item with the error is displayed.
+            i.setData(Uri.parse(urlStr));
+            row.setOnClickFillInIntent(android.R.id.title, i);
+        }
 
         final int textColor = prefs.getInt("textcolor", -1);
         if (textColor != -1) {
@@ -121,8 +125,6 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         if (bgColor != -1) {
             row.setInt(android.R.id.title, "setBackgroundColor", bgColor);
         }
-
-        //Log.i(WidgetViewsFactory.class.getCanonicalName(), "getViewAt()");
 
         return row;
     }
