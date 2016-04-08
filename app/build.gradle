@@ -44,5 +44,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:preference-v7:23.2.1'
 
-    compile 'com.github.kenumir:MaterialSettings:v.1.2.2'
+    compile 'co.trikita:log:1.1.5'
 }

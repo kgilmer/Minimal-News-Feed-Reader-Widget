@@ -22,13 +22,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.abk.mrw.db.DataSource;
 import com.abk.mrw.model.RSSItem;
-import com.abk.mrw.settings.SettingsActivity;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -44,7 +42,6 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
-        //this.urls = intent.getStringArrayExtra(RSSLoadService.EXTRA_KEY_URL_ARRAY);
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
         this.prefs = ctxt.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
@@ -58,14 +55,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
      * @return set of URLs as strings
      */
     private Set<String> loadUrls(SharedPreferences prefs) {
-        final Set<String> u = Sets.newHashSet(prefs.getStringSet("pref_popularSources", Collections.<String>emptySet()));
-
-        final String customUrl = prefs.getString("EditTextPreference", null);
-        if (customUrl != null) {
-            u.add(customUrl);
-        }
-
-        return u;
+        return prefs.getStringSet("pref_feeds", Collections.<String>emptySet());
     }
 
     @Override

@@ -5,6 +5,7 @@
               android:layout_margin="0dp"
               android:orientation="vertical"
               android:padding="0dp">
+    <!--
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -12,6 +13,7 @@
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
             tools:ignore="UnusedAttribute"/>
+            -->
     <ListView
             android:id="@id/android:list"
             android:layout_width="match_parent"

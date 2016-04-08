@@ -2,7 +2,34 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-            android:title="Feed Sources" >
+            android:title="Widget Style" >
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+                android:key="bgcolor"
+                android:title="Background Color"
+                android:summary="Set the background color and transparency."
+                android:defaultValue="@integer/defaultBackgroundColor"
+                alphaSlider="true"
+                />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+                android:key="textcolor"
+                android:title="Text Color"
+                android:summary="Set the text color."
+                android:defaultValue="@integer/defaultTextColor"
+                alphaSlider="false"
+                />
+
+        <ListPreference
+                android:key="pref_textSize"
+                android:title="Text Size"
+                android:dialogTitle="Text Size"
+                android:entries="@array/pref_textSize_entries"
+                android:entryValues="@array/pref_textSize_entries"
+                android:defaultValue="Medium"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Sources" >
 
     <EditTextPreference
             android:key="pref_manualSource"
@@ -19,29 +46,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Widget Style" >
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-            android:key="bgcolor"
-            android:title="Background Color"
-            android:summary="Set the background color and transparency."
-            android:defaultValue="@integer/defaultBackgroundColor"
-            alphaSlider="true"
-            />
+            android:title="Feeds"
+            android:key="feeds">
 
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-            android:key="textcolor"
-            android:title="Text Color"
-            android:summary="Set the text color."
-            android:defaultValue="@integer/defaultTextColor"
-            alphaSlider="false"
-            />
-
-    <ListPreference
-            android:key="pref_textSize"
-            android:title="Text Size"
-            android:dialogTitle="Text Size"
-            android:entries="@array/pref_textSize_entries"
-            android:entryValues="@array/pref_textSize_entries"
-            android:defaultValue="Medium"/>
-    </PreferenceCategory>
+            </PreferenceCategory>
 </PreferenceScreen>

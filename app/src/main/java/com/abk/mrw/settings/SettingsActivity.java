@@ -62,6 +62,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         //loadHeadersFromResource(R.xml.settings, target);
 
         setContentView(R.layout.settings_page);
+        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -71,6 +72,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         bar.setDisplayShowTitleEnabled(true);
         bar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         bar.setTitle("boo");
+        */
     }
 
     @Override

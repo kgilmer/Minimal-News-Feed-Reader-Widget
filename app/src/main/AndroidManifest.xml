@@ -36,30 +36,12 @@
                 android:exported="false"/>
 
         <activity
-                android:name=".settings.RootSettingsActivity"
-                android:label="@string/title_activity_settings"
-                android:theme="@style/MaterialSettingsTheme">
+                android:name=".settings.SettingsActivity"
+                android:label="@string/title_curated_source_activity_settings"
+                android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
-        </activity>
-
-        <activity
-                android:name=".settings.CuratedSourceSettingsActivity"
-                android:label="@string/title_curated_source_activity_settings"
-                android:theme="@style/MaterialSettingsTheme">
-        </activity>
-
-        <activity
-                android:name=".settings.CustomSourceSettingsActivity"
-                android:label="@string/title_curated_source_activity_settings"
-                android:theme="@style/MaterialSettingsTheme">
-        </activity>
-
-        <activity
-                android:name=".settings.SettingsActivity"
-                android:label="@string/title_curated_source_activity_settings"
-                android:theme="@style/MaterialSettingsTheme">
         </activity>
 
 
