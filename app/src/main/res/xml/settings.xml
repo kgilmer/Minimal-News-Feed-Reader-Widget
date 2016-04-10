@@ -10,32 +10,16 @@
                 android:key="bgcolor"
                 android:summary="Set the background color and transparency."
                 android:title="Background Color"
-                app:spectrum_colors="@array/demo_colors" />
-
-        <!--
-        <net.margaritov.preference.colorpicker.ColorPickerPreference
-                android:key="bgcolor"
-                android:title="Background Color"
-                android:summary="Set the background color and transparency."
-                android:defaultValue="@integer/defaultBackgroundColor"
-                alphaSlider="true"
-                />
-
-        <net.margaritov.preference.colorpicker.ColorPickerPreference
-                android:key="textcolor"
-                android:title="Text Color"
-                android:summary="Set the text color."
-                android:defaultValue="@integer/defaultTextColor"
-                alphaSlider="false"
-                />
-                        -->        -->
+                android:icon="@drawable/ic_color_lens_black_24dp"
+                app:spectrum_colors="@array/demo_colors_expanded" />
 
         <com.thebluealliance.spectrum.SpectrumPreference
                 android:defaultValue="@color/white"
                 android:key="textcolor"
                 android:title="Text Color"
                 android:summary="Set the text color."
-                app:spectrum_colors="@array/demo_colors" />
+                android:icon="@drawable/ic_format_color_text_black_24dp"
+                app:spectrum_colors="@array/many_shades_of_grey" />
 
 
         <ListPreference
@@ -44,6 +28,7 @@
                 android:dialogTitle="Text Size"
                 android:entries="@array/pref_textSize_entries"
                 android:entryValues="@array/pref_textSize_entries"
+                android:icon="@drawable/ic_format_size_black_24dp"
                 android:defaultValue="Medium"/>
     </PreferenceCategory>
 

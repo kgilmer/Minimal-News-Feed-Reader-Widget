@@ -22,51 +22,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActivity().setTheme(R.style...);
 
         getPreferenceManager().setSharedPreferencesName(PrefsUtil.getSharedPrefsRoot());
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         addPreferencesFromResource(R.xml.settings);
-
-        /*
-        if (getArguments() != null) {
-            String page = getArguments().getString("page");
-            if (page != null) {
-                PrefsUtil.setCurrentFragment(page);
-                switch (page) {
-                    case "feeds":
-                        addPreferencesFromResource(R.xml.feeds);
-                        break;
-                    case "style":
-                        addPreferencesFromResource(R.xml.style);
-                        break;
-                }
-            }
-        } else {
-            addPreferencesFromResource(R.xml.feeds);
-        }
-        */
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.settings_page, container, false);
-        if (layout != null) {
-            AppCompatPreferenceActivity activity = (AppCompatPreferenceActivity) getActivity();
-
-            /*
-            Toolbar toolbar = (Toolbar) layout.findViewById(R.id.toolbar);
-            activity.setSupportActionBar(toolbar);
-
-            ActionBar bar = activity.getSupportActionBar();
-            bar.setHomeButtonEnabled(true);
-            bar.setDisplayHomeAsUpEnabled(true);
-            bar.setDisplayShowTitleEnabled(true);
-            bar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-            bar.setTitle("Settings");
-            */
-        }
-        return layout;
+        return inflater.inflate(R.layout.settings_page, container, false);
     }
 
     @Override
@@ -93,7 +57,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Set<String> feeds = prefs.getStringSet("pref_feeds", new HashSet<String>());
         int beforeHash = feeds.hashCode();
         String removedUrl = key.substring(9);
-        Log.i("removed " + removedUrl);
+        Log.d("removed " + removedUrl);
         feeds.remove(removedUrl);
 
         if (beforeHash != feeds.hashCode()) {
@@ -122,7 +86,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void refreshFeedList(Set<String> feeds) {
-        Log.i("Feeds: " + feeds);
+        Log.d("Feeds: " + feeds);
 
         PreferenceCategory targetCategory = (PreferenceCategory) findPreference("feeds");
 
@@ -137,5 +101,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
             targetCategory.addPreference(checkBoxPreference);
         }
+    }
+
+    public SharedPreferences getPreferences() {
+        return getPreferenceManager().getSharedPreferences();
     }
 }

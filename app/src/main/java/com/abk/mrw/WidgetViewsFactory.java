@@ -1,18 +1,3 @@
-/***
- * Copyright (c) 2008-2012 CommonsWare, LLC
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required
- * by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- * <p/>
- * From _The Busy Coder's Guide to Advanced Android Development_
- * http://commonsware.com/AdvAndroid
- */
-
-
 package com.abk.mrw;
 
 import android.app.AlarmManager;
@@ -22,28 +7,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.abk.mrw.db.DataSource;
 import com.abk.mrw.model.FeedEntry;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
+import trikita.log.Log;
 
 import java.util.*;
+
 
 public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final Set<String> urls;
     private final List<FeedEntry> feed = new ArrayList<>();
-    private final Context ctxt;
+    private final Context context;
     private final SharedPreferences prefs;
 
-    public WidgetViewsFactory(Context ctxt, Intent intent) {
-        this.ctxt = ctxt;
+    public WidgetViewsFactory(Context context, Intent intent) {
+        this.context = context;
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.prefs = ctxt.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
+        this.prefs = context.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
         this.urls = loadUrls(prefs);
     }
 
@@ -59,19 +45,19 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onCreate() {
-        scheduleAlarm(ctxt);
-        Log.d(this.getClass().getCanonicalName(), "onCreate()");
+        scheduleAlarm(context);
+        Log.d("onCreate()");
     }
 
     @Override
     public void onDestroy() {
-        clearAlarm(ctxt);
-        Log.d(this.getClass().getCanonicalName(), "onDestroy()");
+        clearAlarm(context);
+        Log.d("onDestroy()");
     }
 
     @Override
     public int getCount() {
-        Log.i(WidgetViewsFactory.class.getCanonicalName(), "getCount() " + feed.size());
+        Log.i("getCount() " + feed.size());
 
         return feed.size();
     }
@@ -85,7 +71,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 rowLayout = R.layout.row_large;
                 break;
             case "Medium":
-                rowLayout = R.layout.row;
+                rowLayout = R.layout.row_medium;
                 break;
             case "Small":
                 rowLayout = R.layout.row_small;
@@ -93,7 +79,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
             default:
                 throw new IllegalArgumentException("Undefined size: " + textSize);
         }
-        RemoteViews row = new RemoteViews(ctxt.getPackageName(),
+        RemoteViews row = new RemoteViews(context.getPackageName(),
                 rowLayout);
 
         final Intent i = new Intent();
@@ -140,17 +126,17 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
-        Log.d(this.getClass().getCanonicalName(), "onDataSetChanged()");
+        Log.d("onDataSetChanged()");
 
         List<FeedEntry> tmpItems = new ArrayList<>();
         Iterables.addAll(tmpItems, DataSource.getRSSItems(urls));
-        Log.d(this.getClass().getCanonicalName(), "new items: " + tmpItems.size());
+        Log.d("new items: " + tmpItems.size());
         feed.clear();
         feed.addAll(tmpItems);
     }
 
     protected static void scheduleAlarm(final Context context) {
-        Log.d(WidgetProvider.class.getCanonicalName(), "Scheduling alarm.");
+        Log.d("Scheduling alarm.");
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -168,11 +154,9 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
                 AlarmManager.INTERVAL_HALF_HOUR,
                 AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
 
-        /*
         alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_HOUR, alarmIntent);
-                */
-        Log.i(WidgetViewsFactory.class.getCanonicalName(), "Setting alarm for refresh: " + calendar.toString());
+        Log.i("Setting alarm for refresh: " + calendar.toString());
     }
 
     private void clearAlarm(Context context) {
@@ -189,6 +173,6 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     }
 
     public static Intent createRefreshIntent(Context context) {
-        return new Intent(context, RSSLoadService.class);
+        return new Intent(context, NewsFeedLoadService.class);
     }
 }
