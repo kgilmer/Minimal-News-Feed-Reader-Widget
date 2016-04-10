@@ -2,6 +2,7 @@ package com.abk.mrw.model;
 
 import android.util.Log;
 import com.abk.xmlobjectiterable.XMLObjectIterable;
+import com.google.common.base.Optional;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -11,10 +12,11 @@ import java.io.IOException;
  */
 public class TransformFactory {
 
-
     public static final int BUFFER_SIZE = 64;
+    private static final XMLObjectIterable.Transformer<FeedEntry> rssTransformer = new RSSEntryTransformer();
+    private static final XMLObjectIterable.Transformer<FeedEntry> atomTransformer = new AtomEntryTransformer();
 
-    public static XMLObjectIterable.Transformer<RSSItem> getTransformer(BufferedInputStream bis) {
+    public static Optional<XMLObjectIterable.Transformer<FeedEntry>> getTransformer(BufferedInputStream bis) {
         bis.mark(BUFFER_SIZE);
         try {
             byte[] buf = new byte[BUFFER_SIZE];
@@ -25,14 +27,14 @@ public class TransformFactory {
 
             String input = new String(buf);
             if (input.contains("<rss") || input.contains("<RSS")) {
-                return RSSItem.RSS_TRANSFORMER;
+                return Optional.of(rssTransformer);
             } else if (input.contains("<feed") || input.contains("<FEED")) {
-                return new AtomEntryTransformer();
+                return Optional.of(atomTransformer);
             }
         } catch (IOException e) {
             Log.e(TransformFactory.class.getCanonicalName(), "Failed to peek at input.", e);
         }
 
-        return null;
+        return Optional.absent();
     }
 }

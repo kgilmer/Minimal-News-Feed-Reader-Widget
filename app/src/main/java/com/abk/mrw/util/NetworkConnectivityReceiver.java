@@ -1,4 +1,4 @@
-package com.abk.mrw;
+package com.abk.mrw.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import com.abk.mrw.WidgetViewsFactory;
 
 /**
  * Created by kgilmer on 3/10/16.

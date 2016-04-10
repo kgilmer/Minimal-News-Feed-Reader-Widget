@@ -14,7 +14,7 @@ import java.util.Map;
  * <updated>2014-05-30T10:14:01.000Z</updated>
  * <id>http://shapeshed.com/passwords-are-still-an-anti-pattern</id>
  */
-public class AtomEntryTransformer implements XMLObjectIterable.Transformer<RSSItem> {
+public class AtomEntryTransformer implements XMLObjectIterable.Transformer<FeedEntry> {
 
     public static final String ATOM_ENTRY_PATH = "feed/entry";
 
@@ -23,12 +23,12 @@ public class AtomEntryTransformer implements XMLObjectIterable.Transformer<RSSIt
     private String updated;
 
     @Override
-    public Optional<RSSItem> transform() {
+    public Optional<FeedEntry> transform() {
         if (title == null || link == null || updated == null) {
             return Optional.absent();
         }
 
-        return Optional.of(new RSSItem(title, link, updated));
+        return Optional.of(new FeedEntry(title, link, updated));
     }
 
     @Override

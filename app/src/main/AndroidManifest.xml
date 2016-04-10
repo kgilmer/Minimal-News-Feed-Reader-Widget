@@ -22,7 +22,7 @@
                     android:resource="@xml/widget_provider"/>
         </receiver>
         <!-- Receive Wi-Fi connection state changes -->
-        <receiver android:name=".NetworkConnectivityReceiver">
+        <receiver android:name=".util.NetworkConnectivityReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>

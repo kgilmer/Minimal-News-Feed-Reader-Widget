@@ -26,17 +26,16 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.abk.mrw.db.DataSource;
-import com.abk.mrw.model.RSSItem;
+import com.abk.mrw.model.FeedEntry;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 
 import java.util.*;
 
 public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final Set<String> urls;
-    private final List<RSSItem> feed = new ArrayList<>();
+    private final List<FeedEntry> feed = new ArrayList<>();
     private final Context ctxt;
     private final SharedPreferences prefs;
 
@@ -143,7 +142,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     public void onDataSetChanged() {
         Log.d(this.getClass().getCanonicalName(), "onDataSetChanged()");
 
-        List<RSSItem> tmpItems = new ArrayList<>();
+        List<FeedEntry> tmpItems = new ArrayList<>();
         Iterables.addAll(tmpItems, DataSource.getRSSItems(urls));
         Log.d(this.getClass().getCanonicalName(), "new items: " + tmpItems.size());
         feed.clear();
