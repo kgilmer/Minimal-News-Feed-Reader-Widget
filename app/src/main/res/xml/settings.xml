@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
             android:title="Widget Style" >
+
+        <com.thebluealliance.spectrum.SpectrumPreference
+                android:defaultValue="@color/md_indigo_500"
+                android:key="bgcolor"
+                android:summary="Set the background color and transparency."
+                android:title="Background Color"
+                app:spectrum_colors="@array/demo_colors" />
+
+        <!--
         <net.margaritov.preference.colorpicker.ColorPickerPreference
                 android:key="bgcolor"
                 android:title="Background Color"
@@ -18,6 +28,15 @@
                 android:defaultValue="@integer/defaultTextColor"
                 alphaSlider="false"
                 />
+                        -->        -->
+
+        <com.thebluealliance.spectrum.SpectrumPreference
+                android:defaultValue="@color/white"
+                android:key="textcolor"
+                android:title="Text Color"
+                android:summary="Set the text color."
+                app:spectrum_colors="@array/demo_colors" />
+
 
         <ListPreference
                 android:key="pref_textSize"

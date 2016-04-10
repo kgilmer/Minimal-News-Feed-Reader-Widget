@@ -23,6 +23,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "http://github.com/wada811/Android-Material-Design-Colors/raw/master/repository/"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -36,6 +42,10 @@ dependencies {
 
     compile 'com.github.kgilmer:XMLObjectIterable:0.6@aar'
     compile 'com.github.kgilmer:interleaver:1.0'
+    compile 'com.thebluealliance:spectrum:0.2.0'
+
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.wada811:android-material-design-colors:2.0.0'
 
     compile 'com.github.kgilmer:android-ColorPickerPreference:1.0@aar'
 
