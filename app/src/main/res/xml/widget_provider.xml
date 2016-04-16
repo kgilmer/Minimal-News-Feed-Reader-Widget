@@ -3,7 +3,7 @@
                     android:minHeight="73dip"
                     android:initialLayout="@layout/widget"
                     android:autoAdvanceViewId="@+id/words"
-                    android:previewImage="@drawable/preview"
+                    android:previewImage="@drawable/sample_widget"
                     android:resizeMode="vertical|horizontal"
                     android:configure="com.abk.mrw.settings.SettingsActivity"
         />

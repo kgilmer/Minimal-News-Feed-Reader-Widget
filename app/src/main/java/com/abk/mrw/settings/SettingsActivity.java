@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.design.widget.Snackbar;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
-import com.abk.mrw.R;
 import com.abk.mrw.NewsFeedLoadService;
-import com.abk.mrw.db.DataSource;
+import com.abk.mrw.R;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.base.Optional;
 import trikita.log.Log;
@@ -70,35 +66,12 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        //loadHeadersFromResource(R.xml.settings, target);
-
         setContentView(R.layout.settings_page);
-        /*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar bar = getSupportActionBar();
-        bar.setHomeButtonEnabled(true);
-        bar.setDisplayHomeAsUpEnabled(true);
-        bar.setDisplayShowTitleEnabled(true);
-        bar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        bar.setTitle("boo");
-        */
     }
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
         return SettingsFragment.class.getName().equals(fragmentName);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private Optional<Integer> getSourceWidgetId() {

@@ -98,6 +98,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             checkBoxPreference.setKey("custPref_" + url);
             checkBoxPreference.setTitle(url);
             checkBoxPreference.setChecked(true);
+            checkBoxPreference.setIcon(R.drawable.ic_rss_feed_black_24dp);
 
             targetCategory.addPreference(checkBoxPreference);
         }

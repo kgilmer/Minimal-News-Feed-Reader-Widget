@@ -3,15 +3,15 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-            android:title="Widget Style" >
+            android:title="Widget Style">
 
         <com.thebluealliance.spectrum.SpectrumPreference
                 android:defaultValue="@color/md_indigo_500"
                 android:key="bgcolor"
-                android:summary="Set the background color and transparency."
+                android:summary="Set the background color."
                 android:title="Background Color"
                 android:icon="@drawable/ic_color_lens_black_24dp"
-                app:spectrum_colors="@array/demo_colors_expanded" />
+                app:spectrum_colors="@array/demo_colors_expanded"/>
 
         <com.thebluealliance.spectrum.SpectrumPreference
                 android:defaultValue="@color/white"
@@ -19,12 +19,12 @@
                 android:title="Text Color"
                 android:summary="Set the text color."
                 android:icon="@drawable/ic_format_color_text_black_24dp"
-                app:spectrum_colors="@array/many_shades_of_grey" />
-
+                app:spectrum_colors="@array/many_shades_of_grey"/>
 
         <ListPreference
                 android:key="pref_textSize"
                 android:title="Text Size"
+                android:summary="Specify the text size."
                 android:dialogTitle="Text Size"
                 android:entries="@array/pref_textSize_entries"
                 android:entryValues="@array/pref_textSize_entries"
@@ -33,25 +33,34 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Sources" >
+            android:title="Sources">
+
+        <MultiSelectListPreference
+                android:key="pref_popularSources"
+                android:title="@string/pref_popularSources"
+                android:summary="@string/pref_popularSourcesSummary"
+                android:dialogTitle="@string/pref_popularSources"
+                android:icon="@drawable/ic_star_border_black_24dp"
+                android:entries="@array/pref_popularFeed_entries"
+                android:entryValues="@array/pref_popularFeed_values"/>
+
+        <com.abk.mrw.settings.FeedlySearchDialogPreference
+            android:key="pref_feedlySources"
+            android:title="Feeds from Feedly..."
+            android:summary="Find feeds from Feedly.com"
+            />
 
     <EditTextPreference
             android:key="pref_manualSource"
-            android:title="Enter Feed URL"
-            android:summary="Enter your own feed URL."/>
+            android:title="@string/pref_manualSourceTitle"
+            android:summary="@string/pref_manualSourceSummary"
+            android:icon="@drawable/ic_rss_feed_black_24dp"/>
 
-    <MultiSelectListPreference
-            android:key="pref_popularSources"
-            android:title="@string/pref_popularSources"
-            android:summary="Select from a list of popular feeds."
-            android:dialogTitle="@string/pref_popularSources"
-            android:entries="@array/pref_popularFeed_entries"
-            android:entryValues="@array/pref_popularFeed_values" />
     </PreferenceCategory>
 
     <PreferenceCategory
             android:title="Feeds"
             android:key="feeds">
 
-            </PreferenceCategory>
+    </PreferenceCategory>
 </PreferenceScreen>
