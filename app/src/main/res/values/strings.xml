@@ -31,4 +31,5 @@
     <string name="pref_manualSourceSummary">Enter an Atom or RSS feed URL.</string>
 
     <string name="no_feed_message">No feeds selected, widget creation canceled.</string>
+    <string name="backgroundImageViewContentDesc">background</string>
 </resources>

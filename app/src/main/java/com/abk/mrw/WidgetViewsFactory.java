@@ -96,10 +96,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
             row.setTextColor(android.R.id.title, textColor);
         }
 
+        /*
         final int bgColor = prefs.getInt("bgcolor", -1);
         if (bgColor != -1) {
             row.setInt(android.R.id.title, "setBackgroundColor", bgColor);
         }
+        */
 
         return row;
     }
