@@ -33,27 +33,19 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.7@aar') {
-        transitive = true
-    }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
-        transitive = true
-    }
-
     compile 'com.github.kgilmer:XMLObjectIterable:0.6@aar'
     compile 'com.github.kgilmer:interleaver:1.0'
+
     compile 'com.thebluealliance:spectrum:0.2.0'
 
-    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.wada811:android-material-design-colors:2.0.0'
-
-    compile 'com.github.kgilmer:android-ColorPickerPreference:1.0@aar'
 
     compile 'com.google.guava:guava:18.0'
 
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:preference-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:preference-v7:23.3.0'
 
     compile 'co.trikita:log:1.1.5'
 }
