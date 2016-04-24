@@ -11,15 +11,7 @@
                 android:summary="Set the background color."
                 android:title="Background Color"
                 android:icon="@drawable/ic_color_lens_black_24dp"
-                app:spectrum_colors="@array/demo_colors_expanded"/>
-
-        <com.thebluealliance.spectrum.SpectrumPreference
-                android:defaultValue="@color/white"
-                android:key="textcolor"
-                android:title="Text Color"
-                android:summary="Set the text color."
-                android:icon="@drawable/ic_format_color_text_black_24dp"
-                app:spectrum_colors="@array/many_shades_of_grey"/>
+                app:spectrum_colors="@array/widget_background_color"/>
 
         <ListPreference
                 android:key="pref_textSize"

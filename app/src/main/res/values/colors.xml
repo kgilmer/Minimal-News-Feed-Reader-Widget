@@ -2,7 +2,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <array name="demo_colors">
+    <array name="widget_background_color">
         <item>@color/md_red_500</item>
         <item>@color/md_pink_500</item>
         <item>@color/md_purple_500</item>
@@ -22,98 +22,5 @@
         <item>@color/md_brown_500</item>
         <item>@color/md_grey_500</item>
         <item>@color/md_blue_grey_500</item>
-        <item>@color/md_white</item>
-    </array>
-    <array name="demo_colors_expanded">
-        <item>@color/md_red_500</item>
-        <item>@color/md_pink_500</item>
-        <item>@color/md_purple_500</item>
-        <item>@color/md_deep_purple_500</item>
-        <item>@color/md_indigo_500</item>
-        <item>@color/md_blue_500</item>
-        <item>@color/md_light_blue_500</item>
-        <item>@color/md_cyan_500</item>
-        <item>@color/md_teal_500</item>
-        <item>@color/md_green_500</item>
-        <item>@color/md_light_green_500</item>
-        <item>@color/md_lime_500</item>
-        <item>@color/md_yellow_500</item>
-        <item>@color/md_amber_500</item>
-        <item>@color/md_orange_500</item>
-        <item>@color/md_deep_orange_500</item>
-        <item>@color/md_brown_500</item>
-        <item>@color/md_grey_500</item>
-        <item>@color/md_blue_grey_500</item>
-        <item>@color/md_white</item>
-        <item>@color/md_red_100</item>
-        <item>@color/md_pink_100</item>
-        <item>@color/md_purple_100</item>
-        <item>@color/md_deep_purple_100</item>
-        <item>@color/md_indigo_100</item>
-        <item>@color/md_blue_100</item>
-        <item>@color/md_light_blue_100</item>
-        <item>@color/md_cyan_100</item>
-        <item>@color/md_teal_100</item>
-        <item>@color/md_green_100</item>
-        <item>@color/md_light_green_100</item>
-        <item>@color/md_lime_100</item>
-        <item>@color/md_yellow_100</item>
-        <item>@color/md_amber_100</item>
-        <item>@color/md_orange_100</item>
-        <item>@color/md_deep_orange_100</item>
-        <item>@color/md_brown_100</item>
-        <item>@color/md_grey_100</item>
-        <item>@color/md_blue_grey_100</item>
-    </array>
-    <array name="many_shades_of_grey">
-        <item>#000000</item>
-        <item>#141414</item>
-        <item>#191919</item>
-        <item>#1e1e1e</item>
-        <item>#232323</item>
-        <item>#282828</item>
-        <item>#2d2d2d</item>
-        <item>#323232</item>
-        <item>#373737</item>
-        <item>#3c3c3c</item>
-        <item>#414141</item>
-        <item>#464646</item>
-        <item>#4b4b4b</item>
-        <item>#505050</item>
-        <item>#555555</item>
-        <item>#5a5a5a</item>
-        <item>#5f5f5f</item>
-        <item>#646464</item>
-        <item>#696969</item>
-        <item>#6e6e6e</item>
-        <item>#737373</item>
-        <item>#787878</item>
-        <item>#7d7d7d</item>
-        <item>#828282</item>
-        <item>#878787</item>
-        <item>#8c8c8c</item>
-        <item>#919191</item>
-        <item>#969696</item>
-        <item>#9b9b9b</item>
-        <item>#a0a0a0</item>
-        <item>#a5a5a5</item>
-        <item>#aaaaaa</item>
-        <item>#afafaf</item>
-        <item>#b4b4b4</item>
-        <item>#b9b9b9</item>
-        <item>#bebebe</item>
-        <item>#c3c3c3</item>
-        <item>#c8c8c8</item>
-        <item>#cdcdcd</item>
-        <item>#d2d2d2</item>
-        <item>#d7d7d7</item>
-        <item>#dcdcdc</item>
-        <item>#e1e1e1</item>
-        <item>#e6e6e6</item>
-        <item>#ebebeb</item>
-        <item>#f0f0f0</item>
-        <item>#f5f5f5</item>
-        <item>#fafafa</item>
-        <item>#ffffff</item>
     </array>
 </resources>

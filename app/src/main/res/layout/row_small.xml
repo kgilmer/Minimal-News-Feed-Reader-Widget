@@ -21,5 +21,6 @@
           android:padding="@dimen/row_padding_small"
           android:textAppearance="@android:style/TextAppearance.Small"
           android:gravity="center_vertical"
+          android:textColor="@color/md_white"
           android:minHeight="@dimen/row_padding_small"
         />

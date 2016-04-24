@@ -21,5 +21,10 @@
           android:padding="@dimen/row_padding_large"
           android:textAppearance="@android:style/TextAppearance.Large"
           android:gravity="center_vertical"
+          android:textColor="@color/md_white"
+          android:shadowColor="@color/md_black"
+          android:shadowDx="1"
+          android:shadowDy="1"
+          android:shadowRadius="1"
           android:minHeight="@dimen/row_padding_large"
         />

@@ -91,10 +91,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
             row.setOnClickFillInIntent(android.R.id.title, i);
         }
 
+        /*
         final int textColor = prefs.getInt("textcolor", -1);
         if (textColor != -1) {
             row.setTextColor(android.R.id.title, textColor);
         }
+        */
 
         /*
         final int bgColor = prefs.getInt("bgcolor", -1);

@@ -10,8 +10,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/widget_background"
-            android:layout_margin="3dp"
-            android:background="@color/md_amber_500"
+            android:layout_margin="4dp"
+            android:background="@drawable/gradient_background_blue_gray"
             android:contentDescription="@string/backgroundImageViewContentDesc"/>
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
