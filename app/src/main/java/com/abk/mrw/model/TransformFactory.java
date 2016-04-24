@@ -1,8 +1,8 @@
 package com.abk.mrw.model;
 
-import android.util.Log;
 import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.base.Optional;
+import trikita.log.Log;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class TransformFactory {
 
-    public static final int BUFFER_SIZE = 64;
+    public static final int BUFFER_SIZE = 1024;
     private static final XMLObjectIterable.Transformer<FeedEntry> rssTransformer = new RSSEntryTransformer();
     private static final XMLObjectIterable.Transformer<FeedEntry> atomTransformer = new AtomEntryTransformer();
 
@@ -30,6 +30,8 @@ public class TransformFactory {
                 return Optional.of(rssTransformer);
             } else if (input.contains("<feed") || input.contains("<FEED")) {
                 return Optional.of(atomTransformer);
+            } else {
+                Log.e("Failed to identify format for: ", input);
             }
         } catch (IOException e) {
             Log.e(TransformFactory.class.getCanonicalName(), "Failed to peek at input.", e);

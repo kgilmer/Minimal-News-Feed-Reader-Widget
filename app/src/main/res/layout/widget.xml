@@ -15,7 +15,7 @@
             android:contentDescription="@string/backgroundImageViewContentDesc"/>
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/words"
+              android:id="@+id/feedList"
               style="@style/WidgetStyle"
               android:background="@drawable/shadow_184210"
               android:divider="@null"

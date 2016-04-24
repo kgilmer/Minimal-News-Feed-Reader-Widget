@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_popularFeed_entries">
-        <item>German for Black</item>
+        <item>BBC Front Page</item>
+        <item>CNN Top Stories</item>
+        <item>Google News (US)</item>
         <item>Hacker News</item>
-        <item>Instagram Engineering</item>
-        <item>swannodette</item>
+        <item>New York Times - Technology</item>
+        <item>The Onion</item>
     </string-array>
     <string-array name="pref_popularFeed_values">
-        <item>http://germanforblack.com/rss</item>
+        <item>http://newsrss.bbc.co.uk/rss/newsonline_uk_edition/front_page/rss.xml</item>
+        <item>http://rss.cnn.com/rss/cnn_topstories.rss</item>
+        <item>http://news.google.com/news?cf=all&amp;hl=en&amp;pz=1&amp;ned=us&amp;output=rss</item>
         <item>https://news.ycombinator.com/rss</item>
-        <item>http://instagram-engineering.tumblr.com/rss</item>
-        <item>http://swannodette.github.io/atom.xml</item>
+        <item>http://feeds.nytimes.com/nyt/rss/Technology</item>
+        <item>http://www.theonion.com/feeds/rss</item>
     </string-array>
     <string-array name="pref_textSize_entries">
         <item>Large</item>

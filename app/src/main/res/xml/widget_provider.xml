@@ -2,7 +2,7 @@
                     android:minWidth="146dip"
                     android:minHeight="73dip"
                     android:initialLayout="@layout/widget"
-                    android:autoAdvanceViewId="@+id/words"
+                    android:autoAdvanceViewId="@+id/feedList"
                     android:previewImage="@drawable/sample_widget"
                     android:resizeMode="vertical|horizontal"
                     android:configure="com.abk.mrw.settings.SettingsActivity"

@@ -3,7 +3,6 @@ package com.abk.mrw.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.abk.mrw.model.FeedEntry;
 import com.abk.mrw.model.TransformFactory;
 import com.abk.xmlobjectiterable.XMLObjectIterable;
@@ -13,6 +12,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
 import com.iheart.interleaver.Interleaver;
+import trikita.log.Log;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ public final class DataSource {
             .build(
                     new CacheLoader<String, List<FeedEntry>>() {
                         public List<FeedEntry> load(@NonNull final String urlStr) {
-                            Log.i(DataSource.class.getCanonicalName(), "Loading: " + urlStr);
+                            Log.i("Loading: " + urlStr);
 
                             try {
                                 final URL url = new URL(urlStr);
@@ -59,10 +59,12 @@ public final class DataSource {
                                         Iterables.addAll(itemList, xoi);
 
                                         return itemList;
+                                    } else {
+                                        Log.i("Returning no data, no factory found for URL: ", urlStr);
                                     }
                                 }
                             } catch (java.io.IOException e) {
-                                Log.e(DataSource.class.getCanonicalName(), "Failed to load from " + urlStr);
+                                Log.e("Failed to load from " + urlStr);
 
                                 final FeedEntry errorItem = new FeedEntry("Failed to load " + urlStr, null, null);
                                 return Collections.singletonList(errorItem);
@@ -90,7 +92,7 @@ public final class DataSource {
                 List<FeedEntry> items = feedLoadingCache.get(urlStr);
                 rssItems.add(items);
             } catch (ExecutionException | RuntimeException e) {
-                Log.e(DataSource.class.getCanonicalName(), "Failed to load data.", e);
+                Log.e("Failed to load data.", e);
             }
         }
 
