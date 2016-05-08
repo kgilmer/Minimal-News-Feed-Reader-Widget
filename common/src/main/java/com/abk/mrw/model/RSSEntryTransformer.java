@@ -8,7 +8,16 @@ import java.util.Map;
 import trikita.log.Log;
 
 /**
- * Created by kgilmer on 4/9/16.
+ * Transformer for RSS feeds.
+ *
+ * Example:
+ * <item>
+ *  <title>VNC Roulette</title>
+ *  <link>http://vncroulette.com</link>
+ *  <pubDate>Sat, 26 Mar 2016 22:04:20 +0000</pubDate>
+ *  <comments>https://news.ycombinator.com/item?id=11367666</comments>
+ *  <description><![CDATA[<a href="https://news.ycombinator.com/item?id=11367666">Comments</a>]]></description>
+ * </item>
  */
 public class RSSEntryTransformer implements XMLObjectIterable.Transformer<FeedEntry> {
 

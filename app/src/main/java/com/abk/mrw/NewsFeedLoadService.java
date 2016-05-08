@@ -17,9 +17,10 @@ import trikita.log.Log;
 import java.util.Arrays;
 
 /**
- * Created by kgilmer on 2/14/16.
+ * Service that creates widget.
  */
 public class NewsFeedLoadService extends IntentService {
+    //Extras key for set of feed urls of widget.
     public static final String EXTRA_KEY_URL_ARRAY = "URLS";
 
     public NewsFeedLoadService() {
@@ -28,34 +29,40 @@ public class NewsFeedLoadService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final Context ctxt = this;
+        final Context context = this;
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 
-
-        Log.i("Refreshing widgets " + appWidgetId);
+        Log.d("Refreshing widgets " + appWidgetId);
 
         if (appWidgetId == -1) {
+            //No app wiget id specified, refresh all widgets.
             int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(this.getPackageName(), WidgetProvider.class.getName()));
 
             for (final int id : ids) {
-                final String[] urls = DataSource.getSubscribedFeeds(ctxt, id);
-                Log.d(appWidgetId + " Subscribed: " + Arrays.asList(urls));
-
-                updateWidget(ctxt, id, appWidgetManager, urls);
+                final String[] urls = DataSource.getSubscribedFeeds(context, id);
+                updateWidget(context, id, appWidgetManager, urls);
             }
 
-            return;
+            //TODO: verify following statement is not needed.
+            //return;
         } else {
-            final String[] urls = DataSource.getSubscribedFeeds(ctxt, appWidgetId);
-            Log.d(appWidgetId + " Subscribed: " + Arrays.asList(urls));
+            final String[] urls = DataSource.getSubscribedFeeds(context, appWidgetId);
 
-            updateWidget(ctxt, appWidgetId, appWidgetManager, urls);
+            updateWidget(context, appWidgetId, appWidgetManager, urls);
         }
 
         stopSelf();
     }
 
+    /**
+     * (Re)create app widget.
+     *
+     * @param context Context
+     * @param appWidgetId widget id
+     * @param appWidgetManager AppWidgetManager
+     * @param urls Array of feed sources as String urls.
+     */
     private synchronized void updateWidget(Context context, int appWidgetId, AppWidgetManager appWidgetManager, String[] urls) {
         Intent svcIntent = new Intent(context, WidgetService.class);
 
@@ -88,6 +95,12 @@ public class NewsFeedLoadService extends IntentService {
         Log.d("Updated widget " + appWidgetId);
     }
 
+    /**
+     * Set the widget background gradient based on color selection.
+     *
+     * @param prefs SharedPreferences
+     * @param widget RemoteViews
+     */
     private void setBackgroundColor(SharedPreferences prefs, RemoteViews widget) {
         final int bgColor = prefs.getInt("bgcolor", -1);
 

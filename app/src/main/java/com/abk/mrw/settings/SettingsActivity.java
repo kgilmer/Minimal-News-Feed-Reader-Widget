@@ -20,7 +20,7 @@ import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID;
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
 /**
- * Created by kgilmer on 3/29/16.
+ * Settings activity that hosts one root-level settings fragment.
  */
 public class SettingsActivity extends PreferenceActivity {
 
@@ -74,6 +74,10 @@ public class SettingsActivity extends PreferenceActivity {
         return SettingsFragment.class.getName().equals(fragmentName);
     }
 
+    /**
+     * @return option to the widget id that this settings page
+     * pertains to.
+     */
     private Optional<Integer> getSourceWidgetId() {
         int widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
         Intent intent = getIntent();

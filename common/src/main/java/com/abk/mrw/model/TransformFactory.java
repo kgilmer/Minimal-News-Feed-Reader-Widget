@@ -9,22 +9,33 @@ import java.io.IOException;
 import trikita.log.Log;
 
 /**
- * Created by kgilmer on 4/5/16.
+ * Utility class to return a valid transformer based on the contents of the
+ * data to be transformed.
  */
 public class TransformFactory {
 
+    //Number of bytes needed to determine message format.
     public static final int BUFFER_SIZE = 1024;
+
+    //RSS transformer
     private static final XMLObjectIterable.Transformer<FeedEntry> rssTransformer = new RSSEntryTransformer();
+
+    //Atom transformer
     private static final XMLObjectIterable.Transformer<FeedEntry> atomTransformer = new AtomEntryTransformer();
 
-    public static Optional<XMLObjectIterable.Transformer<FeedEntry>> getTransformer(BufferedInputStream bis) {
-        bis.mark(BUFFER_SIZE);
+    /**
+     * Inspect the input stream and optionally return a Transformer capable of parsing it into FeedEntries.
+     * @param inputStream BufferedInputStream
+     * @return optional transformer if format can be identified.
+     */
+    public static Optional<XMLObjectIterable.Transformer<FeedEntry>> getTransformer(BufferedInputStream inputStream) {
+        inputStream.mark(BUFFER_SIZE);
         try {
             byte[] buf = new byte[BUFFER_SIZE];
             for (int i = 0; i < BUFFER_SIZE; ++i) {
-                buf[i] = (byte) bis.read();
+                buf[i] = (byte) inputStream.read();
             }
-            bis.reset();
+            inputStream.reset();
 
             String input = new String(buf);
             if (input.contains("<rss") || input.contains("<RSS")) {

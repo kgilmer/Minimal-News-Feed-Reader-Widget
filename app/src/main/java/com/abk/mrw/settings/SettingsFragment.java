@@ -17,14 +17,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Single fragment for widget settings.  This class contains the UI interaction
+ * for the settings activity.
+ */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Add the widget ID to the preference name.
         getPreferenceManager().setSharedPreferencesName(PrefsUtil.getSharedPrefsRoot());
+        // When feeds are added, add them to the root settings so they can be viewed and removed.
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
         addPreferencesFromResource(R.xml.settings);
     }
 
@@ -53,6 +60,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    /**
+     * Remove an existing feed from the list of feeds.
+     *
+     * @param prefs SharedPreferences
+     * @param key key of feed
+     */
     private void removeFeedFromList(SharedPreferences prefs, String key) {
         Set<String> feeds = prefs.getStringSet("pref_feeds", new HashSet<String>());
         int beforeHash = feeds.hashCode();
@@ -68,16 +81,24 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    /**
+     * (Re)create the existing feed list from preference data.
+     *
+     * @param prefs SharedPreferences
+     */
     private void updateFeedList(SharedPreferences prefs) {
         Set<String> feeds = prefs.getStringSet("pref_feeds", new HashSet<String>());
         int beforeHash = feeds.hashCode();
         feeds.addAll(prefs.getStringSet("pref_popularSources", Collections.<String>emptySet()));
         prefs.edit().remove("pref_popularSources").apply();
         String manualFeed = prefs.getString("pref_manualSource", null);
+
         if (manualFeed != null) {
+            //User specified custom URL
             feeds.add(manualFeed);
             prefs.edit().remove("pref_manualSource").apply();
         }
+
         if (beforeHash != feeds.hashCode()) {
             prefs.edit().putStringSet("pref_feeds", feeds).apply();
 
@@ -85,6 +106,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    /**
+     * Create preference views for each feed defined for the widget.
+     *
+     * @param feeds Set of feeds.
+     */
     private void refreshFeedList(Set<String> feeds) {
         Log.d("Feeds: " + feeds);
 
@@ -104,6 +130,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    /**
+     * @return SharedPreferences instance associated with this widget.
+     */
     public SharedPreferences getPreferences() {
         return getPreferenceManager().getSharedPreferences();
     }

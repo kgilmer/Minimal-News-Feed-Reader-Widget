@@ -36,14 +36,6 @@
                 android:entries="@array/pref_popularFeed_entries"
                 android:entryValues="@array/pref_popularFeed_values"/>
 
-        <!--
-        <com.abk.mrw.settings.FeedlySearchDialogPreference
-            android:key="pref_feedlySources"
-            android:title="Feeds from Feedly..."
-            android:summary="Find feeds from Feedly.com"
-            />
-        -->
-
     <EditTextPreference
             android:key="pref_manualSource"
             android:title="@string/pref_manualSourceTitle"

@@ -6,13 +6,17 @@ import com.google.common.base.Optional;
 import java.util.Map;
 
 /**
+ * Transformer for Atom feeds.
+ *
+ * Example:
  * <feed xmlns="http://www.w3.org/2005/Atom">
  * ...
  * <entry>
- * <title type="html"><![CDATA[Passwords are still an anti-pattern]]></title>
- * <link href="http://shapeshed.com/passwords-are-still-an-anti-pattern"/>
- * <updated>2014-05-30T10:14:01.000Z</updated>
- * <id>http://shapeshed.com/passwords-are-still-an-anti-pattern</id>
+ *  <title type="html"><![CDATA[Passwords are still an anti-pattern]]></title>
+ *  <link href="http://shapeshed.com/passwords-are-still-an-anti-pattern"/>
+ *  <updated>2014-05-30T10:14:01.000Z</updated>
+ *  <id>http://shapeshed.com/passwords-are-still-an-anti-pattern</id>
+ * ...
  */
 public class AtomEntryTransformer implements XMLObjectIterable.Transformer<FeedEntry> {
 

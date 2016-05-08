@@ -13,52 +13,59 @@ import com.abk.mrw.db.DataSource;
 import com.abk.mrw.model.FeedEntry;
 import com.abk.mrw.util.PrefsUtil;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import trikita.log.Log;
 
 import java.util.*;
 
-
+/**
+ * Responsible for loading the widget content based on preference data
+ * associated with the widget.
+ */
 public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
+    //URLs for the widget.
     private final Set<String> urls;
+    //Widget Model.
     private final List<FeedEntry> feed = new ArrayList<>();
     private final Context context;
     private final SharedPreferences prefs;
 
     public WidgetViewsFactory(Context context, Intent intent) {
-        this.context = context;
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+
+        if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            throw new IllegalArgumentException("Invalid widget id.");
+        }
+
+        this.context = context;
         this.prefs = context.getSharedPreferences(PrefsUtil.getSharedPrefsRoot(appWidgetId), 0);
-        this.urls = loadUrls(prefs);
+        this.urls = getURLsFromPrefs(prefs);
     }
 
     /**
      * Load all URLs for widget from prefs.
      *
-     * @param prefs
+     * @param prefs SharedPreferences
      * @return set of URLs as strings
      */
-    private Set<String> loadUrls(SharedPreferences prefs) {
+    private Set<String> getURLsFromPrefs(SharedPreferences prefs) {
         return prefs.getStringSet("pref_feeds", Collections.<String>emptySet());
     }
 
     @Override
     public void onCreate() {
         scheduleAlarm(context);
-        Log.d("onCreate()");
     }
 
     @Override
     public void onDestroy() {
         clearAlarm(context);
-        Log.d("onDestroy()");
     }
 
     @Override
     public int getCount() {
-        Log.i("getCount() " + feed.size());
-
         return feed.size();
     }
 
@@ -79,33 +86,20 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
             default:
                 throw new IllegalArgumentException("Undefined size: " + textSize);
         }
-        RemoteViews row = new RemoteViews(context.getPackageName(),
+
+        RemoteViews widgetRow = new RemoteViews(context.getPackageName(),
                 rowLayout);
 
-        final Intent i = new Intent();
-        row.setTextViewText(android.R.id.title, feed.get(position).getTitle());
+        widgetRow.setTextViewText(android.R.id.title, feed.get(position).getTitle());
         final String urlStr = feed.get(position).getUrl();
         if (urlStr != null) {
             //URL will be null if a 'dummy' list view item with the error is displayed.
-            i.setData(Uri.parse(urlStr));
-            row.setOnClickFillInIntent(android.R.id.title, i);
+            final Intent intent = new Intent();
+            intent.setData(Uri.parse(urlStr));
+            widgetRow.setOnClickFillInIntent(android.R.id.title, intent);
         }
 
-        /*
-        final int textColor = prefs.getInt("textcolor", -1);
-        if (textColor != -1) {
-            row.setTextColor(android.R.id.title, textColor);
-        }
-        */
-
-        /*
-        final int bgColor = prefs.getInt("bgcolor", -1);
-        if (bgColor != -1) {
-            row.setInt(android.R.id.title, "setBackgroundColor", bgColor);
-        }
-        */
-
-        return row;
+        return widgetRow;
     }
 
     @Override
@@ -130,18 +124,13 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
-        Log.d("onDataSetChanged()");
-
-        List<FeedEntry> tmpItems = new ArrayList<>();
-        Iterables.addAll(tmpItems, DataSource.getRSSItems(urls));
-        Log.d("new items: " + tmpItems.size());
-        feed.clear();
-        feed.addAll(tmpItems);
+        synchronized (feed) {
+            feed.clear();
+            Iterables.addAll(feed, DataSource.getRSSItems(urls));
+        }
     }
 
     protected static void scheduleAlarm(final Context context) {
-        Log.d("Scheduling alarm.");
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 7);
@@ -160,10 +149,15 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_HOUR, alarmIntent);
-        Log.i("Setting alarm for refresh: " + calendar.toString());
+
+        Log.d("Setting alarm for refresh: " + calendar.toString());
     }
 
-    private void clearAlarm(Context context) {
+    /**
+     * Create any existing alarm.
+     * @param context Context
+     */
+    private static void clearAlarm(Context context) {
         final PendingIntent alarmIntent =
                 getAlarmIntent(context);
 
@@ -171,11 +165,19 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         alarmMgr.cancel(alarmIntent);
     }
 
-
+    /**
+     * Create alarm intent
+     * @param context Context
+     * @return alarm intent
+     */
     private static PendingIntent getAlarmIntent(Context context) {
         return PendingIntent.getService(context, 0, createRefreshIntent(context), 0);
     }
 
+    /**
+     * @param context Context
+     * @return Intent to refresh widget
+     */
     public static Intent createRefreshIntent(Context context) {
         return new Intent(context, NewsFeedLoadService.class);
     }

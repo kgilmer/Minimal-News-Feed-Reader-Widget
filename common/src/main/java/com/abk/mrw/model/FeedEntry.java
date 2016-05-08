@@ -1,16 +1,7 @@
 package com.abk.mrw.model;
 
 /**
- * RSS Feed Items
- * <p/>
- * Example:
- * <item>
- * <title>VNC Roulette</title>
- * <link>http://vncroulette.com</link>
- * <pubDate>Sat, 26 Mar 2016 22:04:20 +0000</pubDate>
- * <comments>https://news.ycombinator.com/item?id=11367666</comments>
- * <description><![CDATA[<a href="https://news.ycombinator.com/item?id=11367666">Comments</a>]]></description>
- * </item>
+ * Protocol independent model class for a feed entry.
  */
 public class FeedEntry {
 
