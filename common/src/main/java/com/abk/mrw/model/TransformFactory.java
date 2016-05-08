@@ -2,10 +2,11 @@ package com.abk.mrw.model;
 
 import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.base.Optional;
-import trikita.log.Log;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+
+import trikita.log.Log;
 
 /**
  * Created by kgilmer on 4/5/16.

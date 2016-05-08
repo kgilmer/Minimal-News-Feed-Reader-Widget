@@ -1,0 +1,17 @@
+<?com.abk.xml.xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listArray">
+        <item>12 Dicts - 2 of 12</item>
+        <item>Vocabulary.com</item>
+        <item>Oxford 3K</item>
+        <item>Top 1000 Words</item>
+        <item>Top 10000 Words</item>
+    </string-array>
+    <string-array name="listValues">
+        <item>fl_2of12</item>
+        <item>vdc</item>
+        <item>ox3k</item>
+        <item>t1k</item>
+        <item>t10k</item>
+    </string-array>
+</resources>

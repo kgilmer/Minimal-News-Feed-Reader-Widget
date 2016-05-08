@@ -3,6 +3,7 @@ package com.abk.mrw.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+
 import com.abk.mrw.model.FeedEntry;
 import com.abk.mrw.model.TransformFactory;
 import com.abk.xmlobjectiterable.XMLObjectIterable;
@@ -12,7 +13,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
 import com.iheart.interleaver.Interleaver;
-import trikita.log.Log;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import trikita.log.Log;
 
 /**
  * Created by kgilmer on 3/27/16.

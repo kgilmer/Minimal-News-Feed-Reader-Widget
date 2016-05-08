@@ -2,9 +2,10 @@ package com.abk.mrw.model;
 
 import com.abk.xmlobjectiterable.XMLObjectIterable;
 import com.google.common.base.Optional;
-import trikita.log.Log;
 
 import java.util.Map;
+
+import trikita.log.Log;
 
 /**
  * Created by kgilmer on 4/9/16.

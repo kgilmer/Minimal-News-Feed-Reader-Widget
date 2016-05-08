@@ -1,0 +1,13 @@
+<?com.abk.xml.xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference android:title="Enabled"
+                        android:defaultValue="true"
+                        android:summary="This option enables or disables the notifications."
+                        android:key="appEnabledPref" />
+    <ListPreference     android:title="Word List"
+                        android:summary="Select the word list."
+                        android:key="wordList"
+                        android:defaultValue="1"
+                        android:entries="@array/listArray"
+                        android:entryValues="@array/listValues" />
+</PreferenceScreen>
