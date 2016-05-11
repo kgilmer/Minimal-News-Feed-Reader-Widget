@@ -11,6 +11,10 @@ I was unable to find good examples of Android widgets in list-view form that uti
 </div>
 <br/>
 
+## Open to Contribution
+
+If you're interested in learning more about Android development or how open source works, feel free to make a change and submit a pull request.  If it's a good change I'll accept the request, build, and release a new version of the app on Google Play.  A quick way to get started is to add your own favorite feed to the picker in this file: https://github.com/kgilmer/Minimal-News-Feed-Reader-Widget/blob/master/app/src/main/res/values/array.xml.
+
 ## Build
 
 ```
